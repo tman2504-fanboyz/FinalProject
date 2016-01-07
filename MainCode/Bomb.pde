@@ -1,4 +1,4 @@
-static final int MOD_SIZE = 12;
+static final int MOD_NUM = 12;
 
 class Bomb{
   Module[] modules;
@@ -8,7 +8,7 @@ class Bomb{
   Bomb(float difficulty){
     defuse_time = 10.00;
     
-    modules = new Module[MOD_SIZE];
+    modules = new Module[MOD_NUM];
     
     for(Module module : modules){
         module = new Module();
@@ -25,7 +25,7 @@ class Bomb{
     text(defuse_time, 10, 10);
     
     for(Module module : modules){
-        //module.display();
+        module.display();
     }
     
     if(defuse_time <= 0)
