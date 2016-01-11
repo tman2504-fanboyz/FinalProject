@@ -9,7 +9,8 @@ Bomb bomb;
 int game_state = 3; 
 
 void setup(){
-  fullScreen();
+   //fullScreen();
+  size(900, 600);
   frameRate(100);
   
   bomb = new Bomb(10);
@@ -29,5 +30,20 @@ void draw(){
     fill(255);
     textAlign(CENTER, CENTER);
     text("Boom.", width/2, height/2);
+  }
+}
+
+void keyPressed(){
+  if(game_state == 3){
+    bomb.keyPress();
+  }
+  
+  if(keyCode == ESC)
+    keyCode = 0;
+}
+
+void mousePressed(){
+  if(game_state == 3){
+    bomb.mousePress();
   }
 }
