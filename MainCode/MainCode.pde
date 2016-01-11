@@ -9,7 +9,7 @@ Bomb bomb;
 int game_state = 3; 
 
 void setup(){
-  size(640, 480);
+  fullScreen();
   frameRate(100);
   
   bomb = new Bomb(10);
@@ -17,11 +17,13 @@ void setup(){
 
 void draw(){
   if(game_state == 3){
+    //gameplay, draw the bomb
     background(255);
     
     bomb.display();
   }
   else if(game_state == 4){
+    //game over, draw the game over text
     background(0);
     
     fill(255);
