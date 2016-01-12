@@ -3,15 +3,15 @@ class MPong extends Module{
   float paddleY = mod_height/2;
   float paddleWidth = 50;
   float paddleHeight = 200;
-  float gap = 10;
+  float gap = 100;
   float wall_width = 50;
   float wally1 = random(mod_height - 200);
   float wally2 = wally1 + gap;
   float ballX = mod_width/2;
   float ballY = mod_height/2;
-  float xSpeed = 1;
-  float ySpeed = 1;
-  float diam = 50;
+  float xSpeed = 10;
+  float ySpeed = 10;
+  float diam = 5;
   
    MPong(){
       rectMode(CORNERS);
@@ -42,7 +42,7 @@ class MPong extends Module{
       //right limits
       if (ballX >= mod_width - 50){
         if (ballY <= wally1 || ballY >= wally2){
-          xSpeed = -abs(xSpeed);
+          xSpeed = abs(xSpeed);
         }
         else {
           completed = true;
@@ -51,10 +51,16 @@ class MPong extends Module{
       
       //left limit
       if (ballX <=0){
-        float ballX = mod_width/2;
-        float ballY = mod_height/2;
+         ballX = mod_width/2;
+         ballY = mod_height/2;
       }
       
+      //paddle collide
+      if (ballX <= paddleX + paddleWidth){
+        if (ballY >= paddleY && ballY <= paddleY + paddleHeight){
+          xSpeed = -abs(xSpeed);
+        }
+      }
       
       //move Paddle
       if (keyPressed) { //move left paddle
