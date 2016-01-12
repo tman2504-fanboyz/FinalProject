@@ -55,11 +55,19 @@ class MPong extends Module{
          ballY = mod_height/2;
       }
       
-      //paddle collide
+      //paddle collide right side
       if (ballX <= paddleX + paddleWidth){
         if (ballY >= paddleY && ballY <= paddleY + paddleHeight){
           xSpeed = -abs(xSpeed);
         }
+      }
+      
+      //paddle collide top and bottom
+      if (ballY >= paddleY && ballX < paddleWidth){
+        ySpeed = -abs(ySpeed);
+      }
+      if (ballY <= paddleY + paddleHeight && ballX < paddleWidth){
+        ySpeed = abs(ySpeed);
       }
       
       //move Paddle
