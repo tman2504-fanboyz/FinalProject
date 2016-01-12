@@ -61,14 +61,14 @@ class Bomb {
       int ix = i % mod_per_row;
       int iy = i / mod_per_row;
 
-      translate(mod_width*ix, mod_width*iy);
+      translate(mod_width*ix+mod_padding*(ix+1), mod_width*iy+mod_padding*(iy));
       
       if(i == mod_selected){
         fill(255, 255, 0);
         rect(0, 0, mod_width+(mod_padding*2), mod_height+(mod_padding*2));
       }
       
-      translate(mod_padding*(ix+1), mod_padding*(iy+1));
+      translate(mod_padding, mod_padding);
 
       modules[i].display();
 

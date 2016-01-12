@@ -37,7 +37,7 @@ class MPong extends Module {
     ballX = ballX - xSpeed;
 
     //top and bottom limits
-    if (ballY <= 0 || ballY >= height) {
+    if (ballY <= 0 || ballY >= mod_height) {
       ySpeed = -ySpeed;
     }
 
