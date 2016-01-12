@@ -1,9 +1,18 @@
-class Module{
+class Module {
   int num;
   
-  Module(){
-    
+  boolean completed;
+
+  Module() {
+    completed = true;
   }
-  void display(){
+  
+  void display() {
+    fill(100, 100, 100);
+    rect(0, 0, mod_width, mod_height);
+  }
+  
+  void run(){
+    
   }
 }
