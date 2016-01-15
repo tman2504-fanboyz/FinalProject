@@ -9,16 +9,18 @@ class MPong extends Module {
   float wally2 = wally1 + gap;
   float ballX = mod_width/2;
   float ballY = mod_height/2;
-  float xSpeed = 2;
-  float ySpeed = 2;
-  float diam = 5;
+  float xSpeed = -5;
+  float ySpeed = -5;
+  float diam = gap/10;
 
   MPong() {
     rectMode(CORNERS);
     completed = false;
+    empty = false;
   }
 
-  void display() {
+
+  void display() {      
     //background
     fill(255);
     
@@ -37,7 +39,7 @@ class MPong extends Module {
     ellipse(ballX, ballY, diam, diam);
   }
 
-  void run() {
+  void run() {    
     ballY = ballY - ySpeed;
     ballX = ballX - xSpeed;
 
@@ -48,11 +50,7 @@ class MPong extends Module {
 
     //right limits
     if (ballX >= mod_width - 50) {
-      if (ballY <= wally1 || ballY >= wally2) {
-        xSpeed = abs(xSpeed);
-      } else {
         completed = true;
-      }
     }
 
     //left limit
@@ -78,10 +76,10 @@ class MPong extends Module {
 
     if (keyPressed) {
       if (keyCode == UP && (paddleY) > 0) {//move left paddle up
-        paddleY = paddleY - 20;
+        paddleY = paddleY - 5;
       }
       if (keyCode == DOWN && (paddleY + paddleHeight) < mod_height) { //move left paddle down
-        paddleY = paddleY + 20;
+        paddleY = paddleY + 5;
       }
     }
   }

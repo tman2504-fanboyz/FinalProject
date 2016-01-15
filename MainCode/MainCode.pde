@@ -6,6 +6,7 @@ Bomb bomb;
 //2 = options
 //3 = gameplay
 //4 = game over
+//5 = game won
 int game_state; 
 
 void setup() {
@@ -31,17 +32,20 @@ void draw() {
     fill(255);
     textAlign(CENTER, CENTER);
     text("Boom.", width/2, height/2);
+  } else if (game_state == 5) {
+    //game won, draw the game over text
+    background(0, 255, 0);
+
+    fill(255);
+    textAlign(CENTER, CENTER);
+    text("Bomb Defused.", width/2, height/2);
   }
 }
 
 void keyPressed() {
   if (game_state == 3) {
     bomb.keyPress();
-  } else if (game_state == 4) {
+  } else if (game_state == 4 || game_state == 5) {
     setup();
   }
-}
-
-void keyDown(){
-  
 }
