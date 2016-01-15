@@ -33,9 +33,9 @@ class Bomb {
 
   void display() {
     resetMatrix();
-
+    
     //center the bomb
-    translate(width/2, height/2);
+    translate(0, 0);
 
     //view scaling, if there is an active mod, zoom to it's position
     if (mod_is_active) {
@@ -44,8 +44,8 @@ class Bomb {
       int ix = mod_selected % mod_per_row;
       int iy = mod_selected / mod_per_row;
 
-      translate(-mod_width *(ix-1)+mod_padding*(ix)-(mod_width+mod_padding)*1.5, 
-        -mod_height*(iy)+mod_padding*(iy)-(mod_width+mod_padding)*0.5);
+      //translate(-mod_width *(ix-1)+mod_padding*(ix)-(mod_width+mod_padding)*1.5, 
+      //  -mod_height*(iy)+mod_padding*(iy)-(mod_width+mod_padding)*0.5);
 
       modules[mod_selected].run();
     }
