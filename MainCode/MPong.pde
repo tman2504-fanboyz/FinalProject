@@ -9,8 +9,8 @@ class MPong extends Module {
   float wally2 = wally1 + gap;
   float ballX = mod_width/2;
   float ballY = mod_height/2;
-  float xSpeed = 10;
-  float ySpeed = 10;
+  float xSpeed = 2;
+  float ySpeed = 2;
   float diam = 5;
 
   MPong() {
@@ -19,6 +19,11 @@ class MPong extends Module {
   }
 
   void display() {
+    //background
+    fill(255);
+    
+    rect(0, 0, mod_width, mod_height);
+    
     fill(0);
 
     //player paddle
@@ -37,7 +42,7 @@ class MPong extends Module {
     ballX = ballX - xSpeed;
 
     //top and bottom limits
-    if (ballY <= 0 || ballY >= height) {
+    if (ballY <= 0 || ballY >= mod_height) {
       ySpeed = -ySpeed;
     }
 
@@ -70,14 +75,14 @@ class MPong extends Module {
     if (ballY <= paddleY + paddleHeight && ballX < paddleWidth) {
       ySpeed = abs(ySpeed);
     }
-  }
 
-  void keyPress() {
-    if (keyCode == UP && (paddleY) > 0) {//move left paddle up
-      paddleY = paddleY - 20;
-    }
-    if (keyCode == DOWN && (paddleY + paddleHeight) < height) { //move left paddle down
-      paddleY = paddleY + 20;
+    if (keyPressed) {
+      if (keyCode == UP && (paddleY) > 0) {//move left paddle up
+        paddleY = paddleY - 20;
+      }
+      if (keyCode == DOWN && (paddleY + paddleHeight) < mod_height) { //move left paddle down
+        paddleY = paddleY + 20;
+      }
     }
   }
 }
