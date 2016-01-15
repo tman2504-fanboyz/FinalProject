@@ -25,13 +25,15 @@ class Bomb {
       modules[i] = new Module();
     }
 
+    modules[1] = new MPong();
+
     mod_selected = 0;
     mod_is_active = false;
   }
 
   void display() {
     resetMatrix();
-    
+
     //center the bomb
     translate(width/2, height/2);
 
@@ -59,7 +61,14 @@ class Bomb {
       int ix = i % mod_per_row;
       int iy = i / mod_per_row;
 
-      translate(mod_width*ix+mod_padding*(ix+1), mod_width*iy+mod_padding*(iy+1));
+      translate(mod_width*ix+mod_padding*(ix+1), mod_width*iy+mod_padding*(iy));
+      
+      if(i == mod_selected){
+        fill(255, 255, 0);
+        rect(0, 0, mod_width+(mod_padding*2), mod_height+(mod_padding*2));
+      }
+      
+      translate(mod_padding, mod_padding);
 
       modules[i].display();
 
@@ -91,14 +100,20 @@ class Bomb {
     if (keyCode == ENTER)
       mod_is_active = !mod_is_active;
 
-    if (keyCode == RIGHT && mod_selected < mod_num-1)
-      mod_selected++;
-    if (keyCode == LEFT && mod_selected > 0)
-      mod_selected--;
+    if (!mod_is_active) {
+      //navigate to a new module
+      if (keyCode == RIGHT && mod_selected < mod_num-1)
+        mod_selected++;
+      if (keyCode == LEFT && mod_selected > 0)
+        mod_selected--;
 
-    if (keyCode == UP && mod_selected >= mod_per_row)
-      mod_selected -= mod_per_row;
-    if (keyCode == DOWN && mod_selected < mod_num-mod_per_row)
-      mod_selected += mod_per_row;
+      if (keyCode == UP && mod_selected >= mod_per_row)
+        mod_selected -= mod_per_row;
+      if (keyCode == DOWN && mod_selected < mod_num-mod_per_row)
+        mod_selected += mod_per_row;
+    } else {
+      //run keypresses for the current module
+      modules[mod_selected].keyPress();
+    }
   }
 }

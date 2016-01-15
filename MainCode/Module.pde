@@ -13,8 +13,10 @@ class Module {
   }
 
   void run() {
+    return;
   }
 
   void keyPress() {
+    return;
   }
 }
