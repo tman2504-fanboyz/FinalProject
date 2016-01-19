@@ -23,9 +23,9 @@ class MPong extends Module {
   void display() {      
     //background
     fill(255);
-    
+
     rect(0, 0, mod_width, mod_height);
-    
+
     fill(0);
 
     //player paddle
@@ -48,29 +48,32 @@ class MPong extends Module {
       ySpeed = -ySpeed;
     }
 
-   //right limit for upper rectangle
-   if (ballX + diam >= mod_width - wall_width){
-     if (ballY - diam >= 0 && ballY + diam <= wally1){
-       xSpeed = abs(xSpeed);
-     }
-   }
-   
-   //right limit for lower rectangle
-   if (ballX + diam >= mod_width - wall_width){
-     if (ballY + diam >= wally2 && ballY - diam <= mod_height){
-       xSpeed = abs(xSpeed);
-     }
-   } 
+    //right limit for upper rectangle
+    if (ballX + diam >= mod_width - wall_width) {
+      if (ballY - diam >= 0 && ballY + diam <= wally1) {
+        xSpeed = abs(xSpeed);
+      }
+    }
 
-   //completed
-   if (ballX + diam == mod_width){
-     completed = true;
-   }
+    //right limit for lower rectangle
+    if (ballX + diam >= mod_width - wall_width) {
+      if (ballY + diam >= wally2 && ballY - diam <= mod_height) {
+        xSpeed = abs(xSpeed);
+      }
+    } 
 
-   //left limit
-   if (ballX - diam <=0) {
+    //completed
+    if (ballX + diam >= mod_width) {
+      completed = true;
+    }
+
+    //left limit
+    if (ballX - diam <=0) {
       ballX = mod_width/2;
       ballY = mod_height/2;
+
+      xSpeed = -5;
+      ySpeed = -5;
     }
 
     //paddle collide right side
