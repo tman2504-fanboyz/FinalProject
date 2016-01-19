@@ -26,6 +26,8 @@ class Bomb {
     }
 
     modules[1] = new MPong();
+    
+    modules[10] = new MPong();
 
     mod_selected = 0;
     mod_is_active = false;
@@ -34,24 +36,33 @@ class Bomb {
   void display() {
     resetMatrix();
 
-    //center the bomb
-    translate(width/2, height/2);
-
     //view scaling, if there is an active mod, zoom to it's position
     if (mod_is_active) {
       scale(1);
-
+      
+      //center the view on a specific module
+      translate(width/2, height/2);
+      
       int ix = mod_selected % mod_per_row;
       int iy = mod_selected / mod_per_row;
 
-      translate(-mod_width *(ix-1)+mod_padding*(ix)-(mod_width+mod_padding)*1.5, 
-        -mod_height*(iy)+mod_padding*(iy)-(mod_width+mod_padding)*0.5);
+      float mwt = mod_width  + (mod_padding*2);
+      float mht = mod_height + (mod_padding*2);
 
-      modules[mod_selected].run();
+      translate(-(ix*mwt + mwt/2), -(iy*mht + mht/2));
+      
+      if(!modules[mod_selected].completed)
+        modules[mod_selected].run();
     }
     //if not, scale out to see everything
     else {
       scale(0.25);
+
+      //center the bomb in the view
+      float bomb_width  = mod_width*mod_per_row;
+      float bomb_height = mod_height*(mod_num/mod_per_row);
+      
+      translate(width*2 - bomb_width/2, height*2 - bomb_height/2);
     }
 
     //iterate through the array of modules and draw each
@@ -61,16 +72,19 @@ class Bomb {
       int ix = i % mod_per_row;
       int iy = i / mod_per_row;
 
-      translate(mod_width*ix+mod_padding*(ix+1), mod_width*iy+mod_padding*(iy));
-      
-      if(i == mod_selected){
+      translate(mod_width*ix+mod_padding*(ix+1), mod_height*iy+mod_padding*(iy));
+
+      if (i == mod_selected) {
         fill(255, 255, 0);
         rect(0, 0, mod_width+(mod_padding*2), mod_height+(mod_padding*2));
       }
-      
+
       translate(mod_padding, mod_padding);
 
-      modules[i].display();
+      if(!modules[i].completed || modules[i].empty)
+        modules[i].display();
+      else
+        modules[i].dispComplete();
 
       popMatrix();
     }
@@ -83,6 +97,17 @@ class Bomb {
 
     fill(255, 0, 0);
     text(defuse_time, 10, 10);
+    
+    //if all modules are completed, win
+    boolean mod_incomplete = false;
+    
+    for(Module mod : modules){
+      if(!mod.completed)
+        mod_incomplete = true;
+    }
+    
+    if(!mod_incomplete)
+      win();
 
     //lower the time, and if it's zero, explode
     defuse_time -= 0.01;
@@ -93,6 +118,10 @@ class Bomb {
 
   void explode() {
     game_state = 4;
+  }
+  
+  void win(){
+    game_state = 5;
   }
 
   void keyPress() {
