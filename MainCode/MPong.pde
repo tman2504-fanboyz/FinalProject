@@ -3,22 +3,21 @@ class MPong extends Module {
   float paddleY = mod_height/2;
   float paddleWidth = 50;
   float paddleHeight = 200;
-  float gap = 100;
-  float wall_width = 50;
+  float gap = 150;
+  float wall_width = 200;
   float wally1 = random(mod_height - 200);
   float wally2 = wally1 + gap;
   float ballX = mod_width/2;
   float ballY = mod_height/2;
   float xSpeed = -5;
   float ySpeed = -5;
-  float diam = gap/10;
+  float radius = 10;
 
   MPong() {
     rectMode(CORNERS);
     completed = false;
     empty = false;
   }
-
 
   void display() {      
     //background
@@ -36,39 +35,20 @@ class MPong extends Module {
     rect(mod_width - wall_width, mod_height, mod_width, wally2);
 
     //ball
-    ellipse(ballX, ballY, diam, diam);
+    ellipse(ballX, ballY, radius*2, radius*2);
   }
 
   void run() {    
     ballY = ballY - ySpeed;
     ballX = ballX - xSpeed;
-
-    //top and bottom limits
-    if (ballY - diam <= 0 || ballY + diam >= mod_height) {
-      ySpeed = -ySpeed;
-    }
-
-    //right limit for upper rectangle
-    if (ballX + diam >= mod_width - wall_width) {
-      if (ballY - diam >= 0 && ballY + diam <= wally1) {
-        xSpeed = abs(xSpeed);
-      }
-    }
-
-    //right limit for lower rectangle
-    if (ballX + diam >= mod_width - wall_width) {
-      if (ballY + diam >= wally2 && ballY - diam <= mod_height) {
-        xSpeed = abs(xSpeed);
-      }
-    } 
-
-    //completed
-    if (ballX + diam >= mod_width) {
+    
+    //complete at right limit
+    if (ballX + radius >= mod_width) {
       completed = true;
     }
-
+    
     //left limit
-    if (ballX - diam <=0) {
+    if (ballX - radius <=0) {
       ballX = mod_width/2;
       ballY = mod_height/2;
 
@@ -76,19 +56,44 @@ class MPong extends Module {
       ySpeed = -5;
     }
 
-    //paddle collide right side
-    if (ballX -diam <= paddleX + paddleWidth) {
-      if (ballY - diam >= paddleY && ballY + diam <= paddleY + paddleHeight) {
-        xSpeed = -abs(xSpeed);
+    //top and bottom limits
+    if (ballY - radius <= 0 || ballY + radius >= mod_height) {
+      ySpeed = -ySpeed;
+    }
+
+    //right limit for upper rectangle
+    if (ballX + radius >= mod_width - wall_width) {
+      if (ballY + radius <= wally1) {
+        xSpeed = abs(xSpeed);
       }
     }
 
-    //paddle collide top and bottom
-    if (ballY - diam >= paddleY && ballX - diam < paddleWidth) {
-      ySpeed = -abs(ySpeed);
+    //right limit for lower rectangle
+    if (ballX + radius >= mod_width - wall_width) {
+      if (ballY + radius >= wally2 && ballY - radius <= mod_height + radius/10) {
+        xSpeed = abs(xSpeed);
+      }
+    } 
+    
+    //bottom limit for upper rectangle
+    if(ballY - radius <= wally1){
+      if(ballX + radius >= mod_width - wall_width + radius/10){
+        ySpeed = -abs(ySpeed);
+      }
     }
-    if (ballY + diam<= paddleY + paddleHeight && ballX - diam< paddleWidth) {
-      ySpeed = abs(ySpeed);
+    
+    //top limit for lower rectangle
+    if(ballY + radius >= wally2){
+      if(ballX + radius >= mod_width - wall_width + radius/10){
+        ySpeed = abs(ySpeed);
+      }
+    }
+
+    //paddle collide right side
+    if (ballX -radius <= paddleX + paddleWidth) {
+      if (ballY - radius >= paddleY && ballY + radius <= paddleY + paddleHeight) {
+        xSpeed = -abs(xSpeed);
+      }
     }
 
     if (keyPressed) {
