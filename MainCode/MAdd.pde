@@ -1,4 +1,4 @@
-class MMath extends Module{
+class MAdd extends Module{
 int mod_width = 600;
 int mod_height = 600;
 int add1 = round(random(0,50));
@@ -7,7 +7,7 @@ String sum = trim(str(add1 + add2));
 String usersum = "";
 boolean completed;
   
-  MMath(){
+  MAdd(){
     textAlign(CENTER, CENTER);
     completed = false;
     empty = false;
@@ -19,8 +19,9 @@ boolean completed;
     text(" = " + usersum, mod_width/2, 3*mod_height/4);
   }
   
+  //record number
   void keyPressed(){
-    //sum
+    //make sure number is only two digits
     if (key >= '0' && key <= '9'){
       usersum += key;
       if (abs(int(usersum)) > 100){
@@ -28,7 +29,7 @@ boolean completed;
       }
     }
     
-    //
+    //check if added correctly
     if (key == ENTER || key == RETURN){
       if (!sum.equals(usersum)){
         //flash red and penalize player
