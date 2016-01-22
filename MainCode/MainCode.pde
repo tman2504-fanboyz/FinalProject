@@ -1,26 +1,57 @@
 Bomb bomb;
 
 //game_state:
-//0 = title screen
-//1 = difficulty select
-//2 = options
+//1 = title screen
+//2 = difficulty select
 //3 = gameplay
 //4 = game over
 //5 = game won
 int game_state; 
 
+//difficulty:
+//1 = easy
+//2 = medium
+//3 = hard
+//4 = insane
+int difficulty;
+
+int flicker_timer;
+
 void setup() {
   fullScreen();
-  //size(900, 600);
   frameRate(100);
 
-  game_state = 3;
+  //set the font to be comic sans
+  PFont font;
+  font = createFont("Comic Sans MS", 32); 
+  textFont(font); 
+
+  game_state = 1;
+  difficulty = 1;
+
+  flicker_timer = 0;
 
   bomb = new Bomb(10);
 }
 
 void draw() {
-  if (game_state == 3) {
+  if (game_state == 1) {
+    background(255);
+
+    if (flicker_timer > 33) fill(0);
+    else fill(255, 255, 255, 0);
+
+    textAlign(CENTER, CENTER);
+    text("Press any Key", width/2, height/2);
+  } else if (game_state == 2) {
+    background(255);
+
+    if (flicker_timer > 33) fill(0);
+    else fill(255, 255, 255, 0);
+
+    textAlign(CENTER, CENTER);
+    text("Press ENTER", width/2, height/2);
+  } else if (game_state == 3) {
     //gameplay, draw the bomb
     background(255);
 
@@ -29,21 +60,41 @@ void draw() {
     //game over, draw the game over text
     background(0);
 
-    fill(255);
-    textAlign(CENTER, CENTER);
-    text("Boom.", width/2, height/2);
+    if (flicker_timer > 33) fill(0);
+    else fill(255, 255, 255, 0);
+
+    text("Press any Key", width/2, height/2);
   } else if (game_state == 5) {
     //game won, draw the game over text
     background(0, 255, 0);
 
-    fill(255);
+    if (flicker_timer > 33) fill(0);
+    else fill(255, 255, 255, 0);
+
     textAlign(CENTER, CENTER);
-    text("Bomb Defused.", width/2, height/2);
+    text("Press any Key", width/2, height/2);
   }
+
+  //increment the timer for flickering the text, reset if it's too big
+  flicker_timer++;
+
+  if (flicker_timer > 100)
+    flicker_timer = 0;
 }
 
 void keyPressed() {
-  if (game_state == 3) {
+  if (game_state == 1) {
+    game_state = 2;
+  } else if (game_state == 2) {
+    if (keyCode == ENTER) {
+      bomb = new Bomb(difficulty);
+      game_state = 3;
+    } else if (keyCode == UP && difficulty > 1) {
+      difficulty--;
+    } else if (keyCode == DOWN && difficulty < 4) {
+      difficulty++;
+    }
+  } else if (game_state == 3) {
     bomb.keyPress();
   } else if (game_state == 4 || game_state == 5) {
     setup();

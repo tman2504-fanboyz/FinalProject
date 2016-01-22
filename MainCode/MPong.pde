@@ -41,10 +41,10 @@ class MPong extends Module {
   void run() {    
     ballY = ballY - ySpeed;
     ballX = ballX - xSpeed;
-    
+
     //paddle collide right side
-    if(ballX - radius <= paddleWidth){
-      if(ballY + radius >= paddleY && ballY - radius <= paddleY + paddleHeight){
+    if (ballX - radius <= paddleWidth) {
+      if (ballY + radius >= paddleY && ballY - radius <= paddleY + paddleHeight) {
         xSpeed = -abs(xSpeed);
         ySpeed = random(-5, 5);
       }
@@ -61,33 +61,33 @@ class MPong extends Module {
         xSpeed = abs(xSpeed);
       }
     }
-    
+
     //right limit for lower rectangle
     if (ballX + radius >= mod_width - wall_width && ballX <= mod_width - wall_width + radius/60) {
       if (ballY + radius >= wally2) {
         xSpeed = abs(xSpeed);
       }
     } 
-    
+
     //bottom limit for upper rectangle
-    if(ballY - radius <= wally1){
-      if(ballX + radius >= mod_width - wall_width){
+    if (ballY - radius <= wally1) {
+      if (ballX + radius >= mod_width - wall_width) {
         ySpeed = -abs(ySpeed);
       }
     }
-    
+
     //top limit for lower rectangle
-    if(ballY + radius >= wally2 && ballY <= wally2 + radius/60){
-      if(ballX + radius >= mod_width - wall_width){
+    if (ballY + radius >= wally2 && ballY <= wally2 + radius/60) {
+      if (ballX + radius >= mod_width - wall_width) {
         ySpeed = abs(ySpeed);
       }
     }    
-       
+
     //complete at right limit
     if (ballX + radius >= mod_width) {
       completed = true;
     }
-    
+
     //left limit
     if (ballX - radius <=0) {
       ballX = mod_width/2;

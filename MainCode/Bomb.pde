@@ -14,7 +14,7 @@ class Bomb {
   int mod_selected;
   boolean mod_is_active;
 
-  Bomb(float difficulty) {
+  Bomb(int difficulty) {
     defuse_time = 60.00;
 
     //initialize the array
@@ -26,7 +26,7 @@ class Bomb {
     }
 
     modules[1] = new MPong();
-    
+
     modules[10] = new MPong();
 
     mod_selected = 0;
@@ -39,10 +39,10 @@ class Bomb {
     //view scaling, if there is an active mod, zoom to it's position
     if (mod_is_active) {
       scale(1);
-      
+
       //center the view on a specific module
       translate(width/2, height/2);
-      
+
       int ix = mod_selected % mod_per_row;
       int iy = mod_selected / mod_per_row;
 
@@ -50,8 +50,8 @@ class Bomb {
       float mht = mod_height + (mod_padding*2);
 
       translate(-(ix*mwt + mwt/2), -(iy*mht + mht/2));
-      
-      if(!modules[mod_selected].completed)
+
+      if (!modules[mod_selected].completed)
         modules[mod_selected].run();
     }
     //if not, scale out to see everything
@@ -61,7 +61,7 @@ class Bomb {
       //center the bomb in the view
       float bomb_width  = mod_width*mod_per_row;
       float bomb_height = mod_height*(mod_num/mod_per_row);
-      
+
       translate(width*2 - bomb_width/2, height*2 - bomb_height/2);
     }
 
@@ -81,7 +81,7 @@ class Bomb {
 
       translate(mod_padding, mod_padding);
 
-      if(!modules[i].completed || modules[i].empty)
+      if (!modules[i].completed || modules[i].empty)
         modules[i].display();
       else
         modules[i].dispComplete();
@@ -97,16 +97,16 @@ class Bomb {
 
     fill(255, 0, 0);
     text(defuse_time, 10, 10);
-    
+
     //if all modules are completed, win
     boolean mod_incomplete = false;
-    
-    for(Module mod : modules){
-      if(!mod.completed)
+
+    for (Module mod : modules) {
+      if (!mod.completed)
         mod_incomplete = true;
     }
-    
-    if(!mod_incomplete)
+
+    if (!mod_incomplete)
       win();
 
     //lower the time, and if it's zero, explode
@@ -119,8 +119,8 @@ class Bomb {
   void explode() {
     game_state = 4;
   }
-  
-  void win(){
+
+  void win() {
     game_state = 5;
   }
 
@@ -136,9 +136,9 @@ class Bomb {
       if (keyCode == LEFT && mod_selected > 0)
         mod_selected--;
 
-      if (keyCode == UP && mod_selected >= mod_per_row)
+      if (keyCode == LEFT && mod_selected >= mod_per_row)
         mod_selected -= mod_per_row;
-      if (keyCode == DOWN && mod_selected < mod_num-mod_per_row)
+      if (keyCode == RIGHT && mod_selected < mod_num-mod_per_row)
         mod_selected += mod_per_row;
     } else {
       //run keypresses for the current module
