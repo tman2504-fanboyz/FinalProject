@@ -44,33 +44,47 @@ class MPong extends Module {
     ballX = ballX - xSpeed;
 
     //top and bottom limits
-    if (ballY <= 0 || ballY >= mod_height) {
+    if (ballY - diam <= 0 || ballY + diam >= mod_height) {
       ySpeed = -ySpeed;
     }
 
-    //right limits
-    if (ballX >= mod_width - 50) {
-        completed = true;
-    }
+   //right limit for upper rectangle
+   if (ballX + diam >= mod_width - wall_width){
+     if (ballY - diam >= 0 && ballY + diam <= wally1){
+       xSpeed = abs(xSpeed);
+     }
+   }
+   
+   //right limit for lower rectangle
+   if (ballX + diam >= mod_width - wall_width){
+     if (ballY + diam >= wally2 && ballY - diam <= mod_height){
+       xSpeed = abs(xSpeed);
+     }
+   } 
 
-    //left limit
-    if (ballX <=0) {
+   //completed
+   if (ballX + diam == mod_width){
+     completed = true;
+   }
+
+   //left limit
+   if (ballX - diam <=0) {
       ballX = mod_width/2;
       ballY = mod_height/2;
     }
 
     //paddle collide right side
-    if (ballX <= paddleX + paddleWidth) {
-      if (ballY >= paddleY && ballY <= paddleY + paddleHeight) {
+    if (ballX -diam <= paddleX + paddleWidth) {
+      if (ballY - diam >= paddleY && ballY + diam <= paddleY + paddleHeight) {
         xSpeed = -abs(xSpeed);
       }
     }
 
     //paddle collide top and bottom
-    if (ballY >= paddleY && ballX < paddleWidth) {
+    if (ballY - diam >= paddleY && ballX - diam < paddleWidth) {
       ySpeed = -abs(ySpeed);
     }
-    if (ballY <= paddleY + paddleHeight && ballX < paddleWidth) {
+    if (ballY + diam<= paddleY + paddleHeight && ballX - diam< paddleWidth) {
       ySpeed = abs(ySpeed);
     }
 
