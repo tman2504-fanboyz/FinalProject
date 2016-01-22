@@ -21,12 +21,11 @@ class MPong extends Module {
 
   void display() {      
     //background
-    fill(255);
-
+    fill(0);
     rect(0, 0, mod_width, mod_height);
 
-    fill(0);
-
+    fill(0, 240, 0);
+    
     //player paddle
     rect(paddleX, paddleY, paddleX + paddleWidth, paddleY + paddleHeight);
 
@@ -95,6 +94,8 @@ class MPong extends Module {
 
       xSpeed = -5;
       ySpeed = -5;
+      
+      failures++;
     }
 
     if (keyPressed) {

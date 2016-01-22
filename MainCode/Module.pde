@@ -1,12 +1,14 @@
 class Module {
-  int num;
-
   boolean completed;
   boolean empty;
+  
+  int failures;
 
   Module() {
     completed = true;
     empty = true;
+    
+    failures = 0;
   }
 
   void dispComplete() {

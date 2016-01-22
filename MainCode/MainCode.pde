@@ -30,27 +30,27 @@ void setup() {
   difficulty = 1;
 
   flicker_timer = 0;
-
-  bomb = new Bomb(10);
 }
 
 void draw() {
   if (game_state == 1) {
+    //title screen
     background(255);
 
     if (flicker_timer > 33) fill(0);
     else fill(255, 255, 255, 0);
 
     textAlign(CENTER, CENTER);
-    text("Press any Key", width/2, height/2);
+    text("Press any Key", width/2, 7*height/8);
   } else if (game_state == 2) {
+    //difficulty select
     background(255);
 
     if (flicker_timer > 33) fill(0);
     else fill(255, 255, 255, 0);
 
     textAlign(CENTER, CENTER);
-    text("Press ENTER", width/2, height/2);
+    text("Press ENTER", width/2, 7*height/8);
   } else if (game_state == 3) {
     //gameplay, draw the bomb
     background(255);
@@ -63,7 +63,7 @@ void draw() {
     if (flicker_timer > 33) fill(0);
     else fill(255, 255, 255, 0);
 
-    text("Press any Key", width/2, height/2);
+    text("Press any Key", width/2, 7*height/8);
   } else if (game_state == 5) {
     //game won, draw the game over text
     background(0, 255, 0);
@@ -72,7 +72,7 @@ void draw() {
     else fill(255, 255, 255, 0);
 
     textAlign(CENTER, CENTER);
-    text("Press any Key", width/2, height/2);
+    text("Press any Key", width/2, 7*height/8);
   }
 
   //increment the timer for flickering the text, reset if it's too big
@@ -89,9 +89,9 @@ void keyPressed() {
     if (keyCode == ENTER) {
       bomb = new Bomb(difficulty);
       game_state = 3;
-    } else if (keyCode == UP && difficulty > 1) {
+    } else if (keyCode == LEFT && difficulty > 1) {
       difficulty--;
-    } else if (keyCode == DOWN && difficulty < 4) {
+    } else if (keyCode == RIGHT && difficulty < 4) {
       difficulty++;
     }
   } else if (game_state == 3) {
