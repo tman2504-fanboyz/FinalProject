@@ -1,4 +1,6 @@
 class Frogger extends Module {
+  //creates frog, car, car1, pos variables
+  //Dan, get rid of car1 if we don't need it (and we shouldn't anymore)
   int width;
   PImage frog;
   PImage car, car1;
@@ -11,10 +13,15 @@ class Frogger extends Module {
     size (600, 600);
     width = 600;
     
+    //created position vector for frog
     pos = new PVector(268, 550);
+    
+    //loads images used in game
     frog = loadImage("Frogger_sprite.png");
     car = loadImage("SimpleYellowCarTopView.png");
     car1 = loadImage("SimpleYellowCarTopView.png");
+    
+    //creates array of cars
     cars = new PVector[8];
     for (int i = 0; i < 8; i++) {
       cars[i] = new PVector(random(0, width), 490-(i*60));
@@ -30,12 +37,18 @@ class Frogger extends Module {
 
   void run() {
     background(0);
+    
+    //draws lanes and grass
     fill(0, 0, 0);
     rect(0, 60, width, 480);
     fill(0, 255, 0);
     rect(0, 0, width, 60);
     rect(0, 540, width, 60);
+    
+    //places frog image in program
     image(frog, pos.x, pos.y);
+    
+    //creates if-statements such that frog cannot move beyond boundaries
     if (pos.x > width-68) {
       pos.x = width-68;
     }
@@ -48,6 +61,8 @@ class Frogger extends Module {
     if (pos.y < 0) {
       pos.y = 0;
     }
+    
+    //places cars in program, gives them velocity, and resets cars after leaving screen
     for (int i = 0; i < 8; i++) {
       image(car, cars[i].x, cars[i].y);
       cars[i].x += 7.5;
@@ -63,18 +78,20 @@ class Frogger extends Module {
 
   void keyPress() {
     image(frog, pos.x, pos.y);
-  if (key == CODED) {
-    if (keyCode == UP) {
-      pos.y = pos.y-60;
+    
+    //creates movement of frog through usage of arrow keys
+    if (key == CODED) {
+      if (keyCode == UP) {
+        pos.y = pos.y-60;
+      }
+      if (keyCode == DOWN) {
+        pos.y = pos.y+60;
+      }
+      if (keyCode == RIGHT) {
+        pos.x = pos.x+60;
+      }
+      if (keyCode == LEFT) {
+        pos.x = pos.x-60;
+      }
     }
-    if (keyCode == DOWN) {
-      pos.y = pos.y+60;
-    }
-    if (keyCode == RIGHT) {
-      pos.x = pos.x+60;
-    }
-    if (keyCode == LEFT) {
-      pos.x = pos.x-60;
-    }
-  }
   }
