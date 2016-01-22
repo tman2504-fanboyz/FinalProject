@@ -7,7 +7,7 @@ String difference = trim(str(multiply1 * multiply2));
 String userdifference = "";
 boolean completed;
   
-  void setup(){
+  MMultiply(){
     textAlign(CENTER, CENTER);
     completed = false;
     empty = false;
