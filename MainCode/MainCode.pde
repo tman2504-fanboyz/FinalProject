@@ -66,7 +66,7 @@ void draw() {
     textAlign(CENTER, CENTER);
 
     if (flicker_timer > 33) 
-      text("Press any Key", width/2, 7*height/8);
+      text("Press Any Key", width/2, 7*height/8);
   } else if (game_state == 2) {
     //difficulty select
     background(255);
@@ -114,7 +114,7 @@ void draw() {
     textAlign(CENTER, CENTER);
 
     if (flicker_timer > 33)
-      text("Press any Key", width/2, 7*height/8);
+      text("Press Any Key", width/2, 7*height/8);
   } else if (game_state == 5) {
     //game won, draw the game over text
     background(34, 177, 76);
@@ -126,7 +126,7 @@ void draw() {
     textAlign(CENTER, CENTER);
 
     if (flicker_timer > 33) 
-      text("Press any Key", width/2, 7*height/8);
+      text("Press Any Key", width/2, 7*height/8);
   }
 
   //increment the timer for flickering the text, reset if it's too big

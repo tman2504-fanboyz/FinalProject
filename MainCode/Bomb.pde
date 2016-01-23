@@ -152,37 +152,48 @@ class Bomb {
   }
 
   void randomizeBomb(int difficulty) {
-    int active_modules = difficulty*2;
+    int active_modules = int(float(difficulty)/4.0*float(mod_num));
     int created_modules = 0;
 
-    int num_mod_types = 2;
-    int mod_type = round(random(100));
+    int num_mod_types = 5;
+    int mod_type = int(random(0, num_mod_types));
 
-    //do this until you've added enough modules to fit the difficulty
-    while (created_modules < active_modules) {
+    //for every module slot,
+    for (int i = 0; created_modules < active_modules; i++) {
 
-      //for every module slot,
-      for (int i = 0; i < mod_num; i++) {
-
-        //have a 20% chance of adding a new module based on mod_type
-        if (random(100) > 80 && created_modules < active_modules) {
-
-          switch(mod_type % num_mod_types) {
-          case 0: 
-            modules[i] = new MPong(); 
-            break;
-          case 1: 
-            modules[i] = new MFrogger(); 
-            break;
-          }
-
-          created_modules++;
-
-          //go to the next kind of module, with a chance of skipping
-          mod_type += random(1, 2);
-        }
+      //add a new module based on mod_type
+      switch(mod_type) {
+      case 0: 
+        modules[i] = new MPong(); 
+        break;
+      case 1: 
+        modules[i] = new MFrogger(); 
+        break;
+      case 2: 
+        modules[i] = new MAdd(); 
+        break;
+      case 3: 
+        modules[i] = new MSubtract(); 
+        break;
+      case 4: 
+        modules[i] = new MMultiply(); 
+        break;
       }
+
+      created_modules++;
+
+      //go to the next kind of module, with a chance of skipping
+      mod_type += random(1, 3);
+
+      if (mod_type >= num_mod_types)
+        mod_type = 0;
+
+      //have a chance of skipping the next space
+      if (random(100) > 50 && active_modules - created_modules + 1 < mod_num - i)
+        i++;
     }
+    
+    println(created_modules == active_modules);
   }
 
   void keyPress() {
