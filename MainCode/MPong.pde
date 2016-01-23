@@ -3,7 +3,7 @@ class MPong extends Module {
   float paddleY = mod_height/2;
   float paddleWidth = 50;
   float paddleHeight = 200;
-  float gap = 100;
+  float gap = 150;
   float wall_width = 50;
   float wally1 = random(mod_height - 200);
   float wally2 = wally1 + gap;
@@ -25,7 +25,7 @@ class MPong extends Module {
     rect(0, 0, mod_width, mod_height);
 
     fill(0, 240, 0);
-    
+
     //player paddle
     rect(paddleX, paddleY, paddleX + paddleWidth, paddleY + paddleHeight);
 
@@ -94,7 +94,7 @@ class MPong extends Module {
 
       xSpeed = -5;
       ySpeed = -5;
-      
+
       failures++;
     }
 

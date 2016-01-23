@@ -1,13 +1,13 @@
 class Module {
   boolean completed;
   boolean empty;
-  
+
   int failures;
 
   Module() {
     completed = true;
     empty = true;
-    
+
     failures = 0;
   }
 

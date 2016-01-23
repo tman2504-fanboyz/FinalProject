@@ -144,13 +144,15 @@ class Bomb {
 
   void explode() {
     game_state = 4;
+    menu_key_timer = menu_key_timer_max;
   }
   void win() {
     game_state = 5;
+    menu_key_timer = menu_key_timer_max;
   }
 
   void randomizeBomb(int difficulty) {
-    int active_modules = round(difficulty*1.5);
+    int active_modules = difficulty*2;
     int created_modules = 0;
 
     int num_mod_types = 2;
@@ -173,7 +175,7 @@ class Bomb {
             modules[i] = new MFrogger(); 
             break;
           }
-          
+
           created_modules++;
 
           //go to the next kind of module, with a chance of skipping

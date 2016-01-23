@@ -9,22 +9,23 @@ class MFrogger extends Module {
   int frog_size = 60;
   float car_speed = 0.05;
 
+  int press_delay;
+
   MFrogger() {
-    fill(100, 100, 100);
-    rect(0, 0, mod_width, mod_height);
 
     //created position for frog
     frog_x = mod_width/frog_size/2;
     frog_y = mod_height/frog_size - 1;
 
     //loads images used in game
-    frog = loadImage("Frogger_sprite.png");
-    car = loadImage("SimpleYellowCarTopView.png");
+    frog = loadImage("rsc/frog.png");
+    car = loadImage("rsc/car.png");
 
     //creates array of cars
     cars = new PVector[8];
+
     for (int i = 0; i < 8; i++) {
-      cars[i] = new PVector(round(random(0, mod_width/frog_size - 1)), i + 1);
+      cars[i] = new PVector(round(random(0, mod_width/frog_size - 2)), i + 1);
     }
 
     completed = false;
@@ -32,6 +33,8 @@ class MFrogger extends Module {
   }
 
   void display() {
+    imageMode(CORNER);
+
     fill(0);
     rect(0, 0, mod_width, mod_height);
 
@@ -54,7 +57,7 @@ class MFrogger extends Module {
     //gives cars velocity, and resets cars after leaving screen
     for (int i = 0; i < 8; i++) {
       cars[i].x += car_speed;
-      
+
       if (cars[i].x + 2 > mod_width/frog_size) {
         cars[i].x = 0;
       }
@@ -65,6 +68,7 @@ class MFrogger extends Module {
         failures++;
         frog_x = mod_width/frog_size/2;
         frog_y = mod_height/frog_size - 1;
+        press_delay = 50;
       }
     }
 
@@ -72,9 +76,17 @@ class MFrogger extends Module {
     if (frog_y == 0) {
       completed = true;
     }
+
+    //tick down press delay if it is > 0
+    if (press_delay > 0)
+      press_delay--;
+    else if (press_delay < 0)
+      press_delay = 0;
   }
 
   void keyPress() {
+    if (press_delay > 0) return;
+
     //creates movement of frog through usage of arrow keys
     if (keyCode == UP && frog_y > 0) {
       frog_y--;
