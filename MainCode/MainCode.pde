@@ -53,7 +53,7 @@ void setup() {
 
   flicker_timer = 0;
 
-  menu_key_timer_max = 50;
+  menu_key_timer_max = 20;
   menu_key_timer = menu_key_timer_max;
 }
 

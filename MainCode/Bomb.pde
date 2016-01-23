@@ -150,11 +150,11 @@ class Bomb {
   }
 
   void randomizeBomb(int difficulty) {
-    int num_mod_types = 5;
-    
-    int active_modules = int(float(difficulty)/float(num_mod_types-1)*float(mod_num));
+    int num_mod_types = 6;
+
+    int active_modules = int(float(difficulty)/4.0*float(mod_num));
     int created_modules = 0;
-    
+
     int mod_type = int(random(0, num_mod_types));
 
     //for every module slot,
@@ -176,6 +176,9 @@ class Bomb {
         break;
       case 4: 
         modules[i] = new MMultiply(); 
+        break;
+      case 5:
+        modules[i] = new MBrickbreaker();
         break;
       }
 
