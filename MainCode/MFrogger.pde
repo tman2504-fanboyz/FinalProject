@@ -7,7 +7,7 @@ class MFrogger extends Module {
   PVector[] cars;
 
   int frog_size = 60;
-  float car_speed = 0.5;
+  float car_speed = 0.05;
 
   MFrogger() {
     fill(100, 100, 100);
@@ -24,7 +24,7 @@ class MFrogger extends Module {
     //creates array of cars
     cars = new PVector[8];
     for (int i = 0; i < 8; i++) {
-      cars[i] = new PVector(random(0, mod_width), i*frog_size + frog_size);
+      cars[i] = new PVector(round(random(0, mod_width/frog_size - 1)), i + 1);
     }
 
     completed = false;
@@ -46,7 +46,7 @@ class MFrogger extends Module {
 
     //places cars in program
     for (int i = 0; i < 8; i++) {
-      image(car, cars[i].x, cars[i].y);
+      image(car, cars[i].x*frog_size, cars[i].y*frog_size);
     }
   }
 
@@ -54,10 +54,14 @@ class MFrogger extends Module {
     //gives cars velocity, and resets cars after leaving screen
     for (int i = 0; i < 8; i++) {
       cars[i].x += car_speed;
-      if (cars[i].x > mod_width) {
-        cars[i].x = -frog_size*2;
+      
+      if (cars[i].x + 2 > mod_width/frog_size) {
+        cars[i].x = 0;
       }
-      if (dist(cars[i].x, cars[i].y, frog_x, frog_y) <= 32) {
+
+      //if the car hit the frog, fail
+      if ((frog_x == round(cars[i].x) && frog_y == round(cars[i].y)) ||
+        (frog_x == round(cars[i].x)+1 && frog_y == round(cars[i].y))) {
         failures++;
         frog_x = mod_width/frog_size/2;
         frog_y = mod_height/frog_size - 1;
@@ -65,12 +69,12 @@ class MFrogger extends Module {
     }
 
     //win if the frog made it to the end
-    if (frog_y == 0){
-       completed = true; 
+    if (frog_y == 0) {
+      completed = true;
     }
   }
 
-    void keyPress() {
+  void keyPress() {
     //creates movement of frog through usage of arrow keys
     if (keyCode == UP && frog_y > 0) {
       frog_y--;

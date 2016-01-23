@@ -19,7 +19,7 @@ class Bomb {
 
   Bomb(int difficulty) {
     //once this hits 0, the game is terminated
-    defuse_time = 60.00;
+    defuse_time = 90.00;
 
     //timing for the failure flash, make sure it's not too low
     flash_time_max = 50;

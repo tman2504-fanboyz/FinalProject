@@ -69,7 +69,7 @@ class MPong extends Module {
     } 
 
     //bottom limit for upper rectangle
-    if (ballY - radius <= wally1) {
+    if (ballY - radius <= wally1 && ballY >= wally1 - radius/60) {
       if (ballX + radius >= mod_width - wall_width) {
         ySpeed = -abs(ySpeed);
       }
