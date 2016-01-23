@@ -7,6 +7,7 @@ Bomb bomb;
 //4 = game over
 //5 = game won
 int game_state; 
+int game_state_prev;
 
 //difficulty:
 //1 = easy
@@ -39,6 +40,8 @@ void setup() {
   textFont(font); 
 
   game_state = 1;
+  game_state_prev = 0;
+
   difficulty = 1;
 
   //load all images
@@ -138,31 +141,35 @@ void draw() {
   //decrement menu key timer
   if (menu_key_timer > 0)
     menu_key_timer--;
-  else if (menu_key_timer < 0)
-    menu_key_timer = 0;
 }
 
 void keyPressed() {
-  if (game_state == 1 && menu_key_timer == 0) {
-    //go to difficulty menu
-    game_state = 2;
+  if (game_state_prev != game_state) {
     menu_key_timer = menu_key_timer_max;
-  } else if (game_state == 2) {
-    //navigate the difficulty menu
-    if (keyCode == ENTER) {
-      bomb = new Bomb(difficulty);
-      game_state = 3;
-      menu_key_timer = menu_key_timer_max;
-    } else if (keyCode == LEFT && difficulty > 1) {
-      difficulty--;
-    } else if (keyCode == RIGHT && difficulty < 4) {
-      difficulty++;
+  }
+
+  game_state_prev = game_state;
+
+  if (menu_key_timer <= 0) {
+    if (game_state == 1) {
+      //go to difficulty menu
+      game_state = 2;
+    } else if (game_state == 2) {
+      //navigate the difficulty menu
+      if (keyCode == ENTER) {
+        bomb = new Bomb(difficulty);
+        game_state = 3;
+      } else if (keyCode == LEFT && difficulty > 1) {
+        difficulty--;
+      } else if (keyCode == RIGHT && difficulty < 4) {
+        difficulty++;
+      }
+    } else if (game_state == 3) {
+      //do key presses for the bomb
+      bomb.keyPress();
+    } else if (game_state == 4 || game_state == 5) {
+      //reset the game
+      setup();
     }
-  } else if (game_state == 3 && menu_key_timer == 0) {
-    //do key presses for the bomb
-    bomb.keyPress();
-  } else if (game_state == 4 || game_state == 5 && menu_key_timer == 0) {
-    //reset the game
-    setup();
   }
 }

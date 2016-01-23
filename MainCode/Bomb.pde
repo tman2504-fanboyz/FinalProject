@@ -144,18 +144,17 @@ class Bomb {
 
   void explode() {
     game_state = 4;
-    menu_key_timer = menu_key_timer_max;
   }
   void win() {
     game_state = 5;
-    menu_key_timer = menu_key_timer_max;
   }
 
   void randomizeBomb(int difficulty) {
-    int active_modules = int(float(difficulty)/4.0*float(mod_num));
-    int created_modules = 0;
-
     int num_mod_types = 5;
+    
+    int active_modules = int(float(difficulty)/float(num_mod_types-1)*float(mod_num));
+    int created_modules = 0;
+    
     int mod_type = int(random(0, num_mod_types));
 
     //for every module slot,
@@ -182,7 +181,7 @@ class Bomb {
 
       created_modules++;
 
-      //go to the next kind of module, with a chance of skipping
+      //advance to a new kind of module
       mod_type += random(1, 3);
 
       if (mod_type >= num_mod_types)
@@ -192,8 +191,6 @@ class Bomb {
       if (random(100) > 50 && active_modules - created_modules + 1 < mod_num - i)
         i++;
     }
-    
-    println(created_modules == active_modules);
   }
 
   void keyPress() {
