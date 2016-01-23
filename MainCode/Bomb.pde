@@ -150,7 +150,7 @@ class Bomb {
   }
 
   void randomizeBomb(int difficulty) {
-    int num_mod_types = 6;
+    int num_mod_types = 4;
 
     int active_modules = int(float(difficulty)/4.0*float(mod_num));
     int created_modules = 0;
@@ -169,15 +169,16 @@ class Bomb {
         modules[i] = new MFrogger(); 
         break;
       case 2: 
-        modules[i] = new MAdd(); 
+        //random math module
+        if (random(100) > 99) {
+          modules[i] = new MAdd();
+        } else if (random(100) > 33) {
+          modules[i] = new MSubtract();
+        } else {                       
+          modules[i] = new MMultiply();
+        }
         break;
-      case 3: 
-        modules[i] = new MSubtract(); 
-        break;
-      case 4: 
-        modules[i] = new MMultiply(); 
-        break;
-      case 5:
+      case 3:
         modules[i] = new MBrickbreaker();
         break;
       }
@@ -185,7 +186,7 @@ class Bomb {
       created_modules++;
 
       //advance to a new kind of module
-      mod_type += random(1, 2);
+      mod_type += random(1, 3);
 
       if (mod_type >= num_mod_types)
         mod_type = 0;
