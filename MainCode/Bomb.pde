@@ -185,7 +185,7 @@ class Bomb {
       created_modules++;
 
       //advance to a new kind of module
-      mod_type += random(1, 3);
+      mod_type += random(1, 2);
 
       if (mod_type >= num_mod_types)
         mod_type = 0;

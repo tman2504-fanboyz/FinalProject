@@ -1,11 +1,11 @@
 class MPong extends Module {
   float paddleX = 0;
   float paddleY = mod_height/2;
-  float paddleWidth = 50;
-  float paddleHeight = 200;
+  float paddleWidth = 25;
+  float paddleHeight = 100;
   float paddleSpeed = 0;
   float gap = 150;
-  float wall_width = 50;
+  float wall_width = 25;
   float wally1 = random(mod_height - 200);
   float wally2 = wally1 + gap;
   float ballX = mod_width/2;

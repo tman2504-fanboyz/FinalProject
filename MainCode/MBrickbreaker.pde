@@ -44,17 +44,22 @@ class Ball {
 
   //Ball goes left
   void goLeft() {
-    velX = -4; //decrement x
+    velX = -4 - random(0.5); //decrement x
   }
 
   //Ball goes right
   void goRight() {
-    velX = 4; //increment x
+    velX = 4 + random(0.5); //increment x
   }
 
-  //Ball changes in y direction
-  void changeY() {
-    velY *= -1;
+  //Ball goes up
+  void goUp() {
+    velY = -4;
+  }
+
+  //Ball goes down
+  void goDown() {
+    velY = 4;
   }
 
   //If ball goes below paddle, reset
@@ -62,7 +67,7 @@ class Ball {
     ballX = mod_width/2;
     ballY = mod_height - 300;
     velX = 0;
-    velY = 4;
+    velY = 2;
   }
 
   boolean collidedWith(float x, float y, float bwidth, float bheight) {
@@ -73,7 +78,7 @@ class Ball {
   }
 }
 
-  class Brick {
+class Brick {
   float brickX;
   float brickY;
   float brickWidth;
@@ -116,7 +121,6 @@ class Ball {
 }
 
 class MBrickbreaker extends Module {
-
   int rows = 4; //number of bricks per row 
   int columns = 3; //number of columns 
   int i;
@@ -160,71 +164,44 @@ class MBrickbreaker extends Module {
   void run() {
     boolean nobricks = true;
 
+    //collisions with the block
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
-        //if ball hits bottom of brick ball moves down
-        if (ball.ballY - ball.diam/2 <= brick[i][j].brickY + brick[i][j].brickHeight &&
-          ball.ballY - ball.diam/2 >= brick[i][j].brickY &&
-          ball.ballX >= brick[i][j].brickX && 
-          ball.ballX <= brick[i][j].brickX + brick[i][j].brickWidth &&
-          brick[i][j].hit == false) {
-          ball.changeY();
+        if (ball.collidedWith(brick[i][j].brickX, brick[i][j].brickY, brick[i][j].brickWidth, brick[i][j].brickHeight) && !brick[i][j].hit) {
           brick[i][j].hit();
+
+          float brickdx = abs(ball.ballX - brick[i][j].brickX)/brick[i][j].brickWidth;
+          float brickdy = abs(ball.ballY - brick[i][j].brickY)/brick[i][j].brickHeight;
+
+          println("w"+brickdx);
+          println("h"+brickdy);
+
+          if (brickdx < brickdy) {
+            ball.velX *= -1;
+          } else {
+            ball.velY *= -1;
+          }
         }
 
-        //If ball hits top of brick ball moves up
-        if (ball.ballY + ball.diam/2 >= brick[i][j].brickY &&
-          ball.ballY - ball.diam/2 <= brick[i][j].brickY + brick[i][j].brickHeight/2 &&
-          ball.ballX >= brick[i][j].brickX && ball.ballX <= brick[i][j].brickX + brick[i][j].brickWidth &&
-          brick[i][j].hit == false ) {
-          ball.changeY();
-          brick[i][j].hit();
-        }
-
-        //if ball hits the left of the brick, ball switches to the right, and moves in same direction
-        if (ball.ballX + ball.diam/2 >= brick[i][j].brickX &&
-          ball.ballX + ball.diam/2 <= brick[i][j].brickX + brick[i][j].brickWidth / 2 && ball.ballY >= brick[i][j].brickY &&
-          ball.ballY <= brick[i][j].brickY + brick[i][j].brickHeight &&
-          brick[i][j].hit == false) {
-          ball.goLeft();
-          brick[i][j].hit();
-        }
-
-        //if ball hits the right of the brick, ball switches to the left, and moves in same direction
-        if (ball.ballX - ball.diam/2 <= brick[i][j].brickX + brick[i][j].brickWidth &&
-          ball.ballX + ball.diam/2 >= brick[i][j].brickX + brick[i][j].brickWidth/2 &&
-          ball.ballY >= brick[i][j].brickY &&
-          ball.ballY <= brick[i][j].brickY + brick[i][j].brickHeight &&
-          brick[i][j].hit == false) {
-          ball.goRight();
-          brick[i][j].hit();
-        }
-
-        if (brick[i][j].hit == false) {
+        if (!brick[i][j].hit) {
           nobricks = false;
         }
       }
     }
 
+    //if all bricks have been hit, complete module
     if (nobricks) {
       completed = true;
     }
 
     //collisions with the left top and right top of the paddle
-    if (ball.ballY <= paddle.paddleY &&
-      ball.ballY >= paddle.paddleY + paddle.paddleHeight &&
-      ball.ballX >= paddle.paddleX && 
-      ball.ballX <= paddle.paddleX + (paddle.paddleWidth/2) ) {
-      ball.goLeft();
-      ball.changeY();
-    }
+    if (ball.collidedWith(paddle.paddleX, paddle.paddleY, paddle.paddleWidth, paddle.paddleHeight)) {
+      ball.goUp();
 
-    if (ball.ballY <= paddle.paddleY &&
-      ball.ballY >= paddle.paddleY + paddle.paddleHeight &&
-      ball.ballX >= paddle.paddleX + (paddle.paddleWidth/2) &&
-      ball.ballX <= paddle.paddleX + paddle.paddleWidth) {
-      ball.goRight();
-      ball.changeY();
+      if (ball.ballX < paddle.paddleX + (paddle.paddleWidth/2))
+        ball.goLeft();
+      else
+        ball.goRight();
     }
 
     //wall collisions
@@ -237,7 +214,7 @@ class MBrickbreaker extends Module {
     }
 
     if (ball.ballY - ball.diam / 2 <= 0) {
-      ball.changeY();
+      ball.goDown();
     }
 
     if (ball.ballY > mod_height) {
@@ -247,6 +224,7 @@ class MBrickbreaker extends Module {
 
     ball.run();
 
+    //move the paddle left and right
     if (keyPressed) {
       if (keyCode == RIGHT) {
         if (paddle.paddleX + paddle.paddleWidth < mod_width) {
