@@ -46,6 +46,7 @@ class MAdd extends Module {
       usersum = "";
     }
     if (sum.equals(usersum)) {
+      mods_completed++;
       completed = true;
     }
   }

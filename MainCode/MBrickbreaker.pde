@@ -44,12 +44,12 @@ class Ball {
 
   //Ball goes left
   void goLeft() {
-    velX = -4 - random(0.5); //decrement x
+    velX = -3 - random(2); //decrement x
   }
 
   //Ball goes right
   void goRight() {
-    velX = 4 + random(0.5); //increment x
+    velX = 3 + random(2); //increment x
   }
 
   //Ball goes up
@@ -173,9 +173,6 @@ class MBrickbreaker extends Module {
           float brickdx = abs(ball.ballX - brick[i][j].brickX)/brick[i][j].brickWidth;
           float brickdy = abs(ball.ballY - brick[i][j].brickY)/brick[i][j].brickHeight;
 
-          println("w"+brickdx);
-          println("h"+brickdy);
-
           if (brickdx < brickdy) {
             ball.velX *= -1;
           } else {
@@ -191,6 +188,7 @@ class MBrickbreaker extends Module {
 
     //if all bricks have been hit, complete module
     if (nobricks) {
+      mods_completed++;
       completed = true;
     }
 
@@ -217,7 +215,7 @@ class MBrickbreaker extends Module {
       ball.goDown();
     }
 
-    if (ball.ballY > mod_height) {
+    if (ball.ballY  + ball.diam/2 >= mod_height) {
       ball.reset();
       failures++;
     }

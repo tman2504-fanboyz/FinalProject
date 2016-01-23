@@ -74,6 +74,7 @@ class MFrogger extends Module {
 
     //win if the frog made it to the end
     if (frog_y == 0) {
+      mods_completed++;
       completed = true;
     }
 

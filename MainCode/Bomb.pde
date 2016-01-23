@@ -103,6 +103,8 @@ class Bomb {
 
       //add to failure time and subtract from defuse time for failures
       if (modules[i].failures > 0) {
+        mistakes_made += modules[i].failures;
+        
         defuse_time -= modules[i].failures*10;
         modules[i].failures = 0;
 
@@ -119,7 +121,7 @@ class Bomb {
     textAlign(LEFT, TOP);
 
     fill(255, 0, 0);
-    text(defuse_time, 10, 10);
+    text(nf(defuse_time, 0, 2), 10, 10);
 
     //fill the screen with red on a failure
     fill(255, 0, 0, (float(flash_time)/float(flash_time_max))*255);
@@ -169,10 +171,12 @@ class Bomb {
         modules[i] = new MFrogger(); 
         break;
       case 2: 
-        //random math module
-        if (random(100) > 99) {
+        //random math 
+        int rnd = round(random(100));
+        
+        if (rnd > 66) {
           modules[i] = new MAdd();
-        } else if (random(100) > 33) {
+        } else if (rnd > 33) {
           modules[i] = new MSubtract();
         } else {                       
           modules[i] = new MMultiply();

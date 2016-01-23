@@ -41,6 +41,7 @@ class MMultiply extends Module {
       userproduct = "";
     }
     if (product.equals(userproduct)) {
+      mods_completed++;
       completed = true;
     }
   }

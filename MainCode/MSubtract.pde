@@ -41,6 +41,7 @@ class MSubtract extends Module {
       userdifference = "";
     }
     if (difference.equals(userdifference)) {
+      mods_completed++;
       completed = true;
     }
   }

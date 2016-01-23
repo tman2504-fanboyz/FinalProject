@@ -53,7 +53,8 @@ class MPong extends Module {
     if (ballX - radius <= paddleWidth) {
       if (ballY + radius >= paddleY && ballY - radius <= paddleY + paddleHeight) {
         xSpeed = abs(xSpeed);
-        ySpeed += paddleSpeed/2;
+        ySpeed += random(-2, 2) + paddleSpeed/10;
+        ySpeed = ySpeed % 5;
       }
     }
 
@@ -92,6 +93,7 @@ class MPong extends Module {
 
     //complete at right limit
     if (ballX + radius >= mod_width) {
+      mods_completed++;
       completed = true;
     }
 
@@ -109,9 +111,9 @@ class MPong extends Module {
 
   void keyPress() {
     if (keyCode == UP && paddleY > 0) {//move left paddle up
-      paddleSpeed = -5;
+      paddleSpeed = -10;
     } else if (keyCode == DOWN && paddleY + paddleHeight < mod_height) { //move left paddle down
-      paddleSpeed =  5;
+      paddleSpeed =  10;
     } else {
       paddleSpeed = 0;
     }

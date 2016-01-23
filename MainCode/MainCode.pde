@@ -16,12 +16,19 @@ int game_state_prev;
 //4 = insane
 int difficulty;
 
+//for the title slide-in effect
+float title_y;
+
 //for the text blink effect
 int flicker_timer;
 
 //so player can't rush through the menus
 int menu_key_timer;
 int menu_key_timer_max;
+
+//score values
+int mods_completed;
+int mistakes_made;
 
 //backgrounds for each game state
 PImage title;
@@ -34,10 +41,12 @@ void setup() {
   fullScreen();
   frameRate(100);
 
+
+
   //set the font to be comic sans
   PFont font;
   font = createFont("Comic Sans MS", 32); 
-  textFont(font); 
+  textFont(font);   
 
   game_state = 1;
   game_state_prev = 0;
@@ -53,17 +62,25 @@ void setup() {
 
   flicker_timer = 0;
 
-  menu_key_timer_max = 20;
+  menu_key_timer_max = 15;
   menu_key_timer = menu_key_timer_max;
+
+  mods_completed = 0;
+  mistakes_made = 0;
+
+  title_y = width*4;
 }
 
 void draw() {
   if (game_state == 1) {
+    if (title_y != 0)
+      title_y *= 0.9;
+
     //title screen
     background(255);
 
     imageMode(CENTER);
-    image(title, width/2, height/2);
+    image(title, width/2, height/2 - title_y);
 
     fill(0);
     textAlign(CENTER, CENTER);
@@ -83,16 +100,16 @@ void draw() {
     //display difficulty
     switch(difficulty) {
     case 1:
-      text(" EASY >", width/2, height/2);
+      text("<    EASY    >", width/2, height/2);
       break;
     case 2:
-      text("< MEDIUM >", width/2, height/2);
+      text("<  MEDIUM  >", width/2, height/2);
       break;
     case 3:
-      text("< HARD >", width/2, height/2);
+      text("<    HARD    >", width/2, height/2);
       break;
     case 4:
-      text("< INSANE ", width/2, height/2);
+      text("<  INSANE  >", width/2, height/2);
       break;
     }
 
@@ -114,6 +131,13 @@ void draw() {
     image(lose, width/2, height/2);
 
     fill(255);
+
+    //score text
+    textAlign(LEFT, CENTER);
+    text("Modules Completed: "+mods_completed+"/"+int(float(difficulty)/4.0*float(mod_num))+"\n"+
+      "Mistakes Made: "+mistakes_made, 
+      width/6, 3*height/4);
+
     textAlign(CENTER, CENTER);
 
     if (flicker_timer > 33)
@@ -125,7 +149,16 @@ void draw() {
     imageMode(CENTER);
     image(win, width/2, height/2);
 
-    fill(0);
+    fill(255);
+
+    //score text
+    textAlign(LEFT, CENTER);
+
+    text("Time Elapsed: "+nf(90-bomb.defuse_time, 0, 2)+"s"+"\n"+
+      "Modules Completed: "+mods_completed+"/"+int(float(difficulty)/4.0*float(mod_num))+"\n"+
+      "Mistakes Made: "+mistakes_made, 
+      width/6, 3*height/4);
+
     textAlign(CENTER, CENTER);
 
     if (flicker_timer > 33) 
