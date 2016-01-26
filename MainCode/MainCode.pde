@@ -41,8 +41,6 @@ void setup() {
   fullScreen();
   frameRate(100);
 
-
-
   //set the font to be comic sans
   PFont font;
   font = createFont("Comic Sans MS", 32); 
@@ -62,7 +60,7 @@ void setup() {
 
   flicker_timer = 0;
 
-  menu_key_timer_max = 15;
+  menu_key_timer_max = 50;
   menu_key_timer = menu_key_timer_max;
 
   mods_completed = 0;
@@ -177,12 +175,6 @@ void draw() {
 }
 
 void keyPressed() {
-  if (game_state_prev != game_state) {
-    menu_key_timer = menu_key_timer_max;
-  }
-
-  game_state_prev = game_state;
-
   if (menu_key_timer <= 0) {
     if (game_state == 1) {
       //go to difficulty menu
@@ -205,4 +197,10 @@ void keyPressed() {
       setup();
     }
   }
+  
+  if (game_state_prev != game_state) {
+    menu_key_timer = menu_key_timer_max;
+  }
+
+  game_state_prev = game_state;
 }
