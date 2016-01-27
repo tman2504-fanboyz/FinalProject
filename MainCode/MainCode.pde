@@ -72,7 +72,8 @@ void setup() {
   hbrickbreaker = loadImage("rsc/hbrickbreaker.png");
   hfrogger = loadImage("rsc/hfrogger.png");
   hpong = loadImage("rsc/hpong.png");
-
+  
+  //set timer and mistakes
   flicker_timer = 0;
 
   menu_key_timer_max = 50;
@@ -197,7 +198,7 @@ void keyPressed() {
       //go to difficulty menu
       game_state = 2;
     } else if (game_state == 2) {
-      //navigate the difficulty menu
+      //player choose difficulty
       if (keyCode == ENTER) {
         bomb = new Bomb(difficulty);
         game_state = 3;
@@ -215,6 +216,7 @@ void keyPressed() {
     }
   }
 
+  //reset timer for game
   if (game_state_prev != game_state) {
     menu_key_timer = menu_key_timer_max;
   }
