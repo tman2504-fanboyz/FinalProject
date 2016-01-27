@@ -46,7 +46,8 @@ class Bomb {
     //scale the view out if no mod is active
     if (mod_is_active) {
       scale(1);
-    } else {
+    }
+    else {
       scale(0.25);
     }
 
@@ -228,6 +229,7 @@ class Bomb {
       if (keyCode == DOWN && mod_selected < mod_num-mod_per_row)
         mod_selected += mod_per_row;
     } else {
+      
       //run keypresses for the current module
       modules[mod_selected].keyPress();
     }
