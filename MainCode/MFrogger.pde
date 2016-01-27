@@ -24,6 +24,7 @@ class MFrogger extends Module {
     //creates array of cars
     cars = new PVector[8];
 
+    //place cars into rows
     for (int i = 0; i < 8; i++) {
       cars[i] = new PVector(round(random(0, mod_width/frog_size - 2)), i + 1);
     }

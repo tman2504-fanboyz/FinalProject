@@ -97,7 +97,7 @@ class MPong extends Module {
       completed = true;
     }
 
-    //left limit
+    //left limit, signifying failure
     if (ballX - radius <=0) {
       ballX = mod_width/2;
       ballY = mod_height/2;
@@ -113,9 +113,11 @@ class MPong extends Module {
   }
 
   void keyPress() {
-    if (keyCode == UP && paddleY > 0) {//move left paddle up
+    //move left paddle up
+    if (keyCode == UP && paddleY > 0) {
       paddleSpeed = -10;
-    } else if (keyCode == DOWN && paddleY + paddleHeight < mod_height) { //move left paddle down
+    //move left paddle down
+    } else if (keyCode == DOWN && paddleY + paddleHeight < mod_height) {
       paddleSpeed =  10;
     } else {
       paddleSpeed = 0;
