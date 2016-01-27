@@ -40,6 +40,7 @@ class Bomb {
   }
 
   void display() {
+
     resetMatrix();
 
     //scale the view out if no mod is active
@@ -55,15 +56,12 @@ class Bomb {
 
     translate(width*2 - bomb_width/2, height*2 - bomb_height/2);
 
-    //center the view on a specific module and run it if one is active
+    //center the view on a specific module
     if (mod_is_active) {
       float ix = int(mod_selected % mod_per_row) + 2.5;
       float iy = int(mod_selected / mod_per_row) + 1.25;
 
       translate(-mod_width*ix-mod_padding*(ix+1), -mod_height*iy-mod_padding*(iy));
-
-      if (!modules[mod_selected].completed)
-        modules[mod_selected].run();
     }
 
     //draw the bomb casing
@@ -114,6 +112,12 @@ class Bomb {
     }
 
     resetMatrix();
+    
+    imageMode(CENTER);
+    
+    //run the active module
+    if (!modules[mod_selected].completed && mod_is_active)
+        modules[mod_selected].run();
 
     //draw the defuse time text
     textSize(32);
@@ -125,6 +129,10 @@ class Bomb {
     //fill the screen with red on a failure
     fill(255, 0, 0, (float(flash_time)/float(flash_time_max))*255);
     rect(0, 0, width, height);
+
+    //draw the selection help text
+    if (!mod_is_active)
+      image(hgame, width/2, 7*height/8);
 
     //if all mods are completed, call win
     if (!mod_incomplete)

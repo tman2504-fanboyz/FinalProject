@@ -29,6 +29,11 @@ class MAdd extends Module {
     else
       text("" + add1 + " + " + add2 + " = " + usersum, mod_width/2, 2*mod_height/4);
   }
+  
+  void run(){
+    //draw the help popup
+    image(hmath, width/2, 7*height/8);
+  }
 
   //record number
   void keyPress() {

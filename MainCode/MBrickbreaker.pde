@@ -236,5 +236,8 @@ class MBrickbreaker extends Module {
         }
       }
     }
+    
+    //draw the help popup
+    image(hbrickbreaker, width/2, 7*height/8);
   }
 }

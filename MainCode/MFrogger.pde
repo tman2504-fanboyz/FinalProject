@@ -83,6 +83,9 @@ class MFrogger extends Module {
       press_delay--;
     else if (press_delay < 0)
       press_delay = 0;
+      
+    //draw the help popup
+    image(hfrogger, width/2, 7*height/8);
   }
 
   void keyPress() {
