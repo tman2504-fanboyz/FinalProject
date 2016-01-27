@@ -7,7 +7,7 @@ class MFrogger extends Module {
   PVector[] cars;
 
   int frog_size = 60;
-  float car_speed = 0.05;
+  float car_speed = 0.04;
 
   int press_delay;
 
