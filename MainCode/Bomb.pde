@@ -150,14 +150,17 @@ class Bomb {
     else
       flash_time = 0;
   }
-
+  
+  //if game is not completed in time
   void explode() {
     game_state = 4;
   }
+  //if game is completed on time
   void win() {
     game_state = 5;
   }
 
+  //randomize modules based on difficulty
   void randomizeBomb(int difficulty) {
     int num_mod_types = 4;
 
