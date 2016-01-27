@@ -19,8 +19,10 @@ class MSubtract extends Module {
     fill(0, 240, 0);
     textAlign(CENTER, CENTER);
 
+    //display "__" if no user input is detected
     if (userdifference.equals(""))
       text("" + subtract1 + " - " + subtract2 + " = __", mod_width/2, 2*mod_height/4);
+    //hide "__" if user inputs number
     else
       text("" + subtract1 + " - " + subtract2 + " = " + userdifference, mod_width/2, 2*mod_height/4);
   }

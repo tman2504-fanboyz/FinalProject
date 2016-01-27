@@ -72,7 +72,8 @@ void setup() {
   hbrickbreaker = loadImage("rsc/hbrickbreaker.png");
   hfrogger = loadImage("rsc/hfrogger.png");
   hpong = loadImage("rsc/hpong.png");
-
+  
+  //set timer and mistakes
   flicker_timer = 0;
 
   menu_key_timer_max = 50;
@@ -100,7 +101,7 @@ void draw() {
 
     if (flicker_timer > 33) 
       text("Press Any Key", width/2, 7*height/8);
-  } else if (game_state == 2) {
+    } else if (game_state == 2) {
     //difficulty select
     background(255);
 
@@ -130,16 +131,20 @@ void draw() {
 
     if (flicker_timer > 33)
       text("Press ENTER", width/2, 7*height/8);
-  } else if (game_state == 3) {
+
     //gameplay, draw the bomb
+  } else if (game_state == 3) {
+
     background(28, 38, 55);
 
     imageMode(CENTER);
     image(game, width/2, height/2);
 
     bomb.display();
+  
+  //game over, draw the game over text
   } else if (game_state == 4) {
-    //game over, draw the game over text
+  
     background(0);
 
     imageMode(CENTER);
@@ -157,8 +162,9 @@ void draw() {
 
     if (flicker_timer > 33)
       text("Press Any Key", width/2, 7*height/8);
+  
+  //game won, draw the game over text
   } else if (game_state == 5) {
-    //game won, draw the game over text
     background(34, 177, 76);
 
     imageMode(CENTER);
@@ -193,28 +199,38 @@ void draw() {
 
 void keyPressed() {
   if (menu_key_timer <= 0) {
+    
+    //go to difficulty menu
     if (game_state == 1) {
-      //go to difficulty menu
       game_state = 2;
-    } else if (game_state == 2) {
-      //navigate the difficulty menu
+    }
+    
+    //player choose difficulty    
+    else if (game_state == 2) {
       if (keyCode == ENTER) {
         bomb = new Bomb(difficulty);
         game_state = 3;
-      } else if (keyCode == LEFT && difficulty > 1) {
+      }
+      else if (keyCode == LEFT && difficulty > 1) {
         difficulty--;
-      } else if (keyCode == RIGHT && difficulty < 4) {
+      }
+      else if (keyCode == RIGHT && difficulty < 4) {
         difficulty++;
       }
-    } else if (game_state == 3) {
-      //do key presses for the bomb
+    }
+    
+    //do key presses for the bomb    
+    else if (game_state == 3) {
       bomb.keyPress();
-    } else if (game_state == 4 || game_state == 5) {
-      //reset the game
+    }
+    
+    //reset game
+    else if (game_state == 4 || game_state == 5) {
       setup();
     }
   }
 
+  //reset timer for game
   if (game_state_prev != game_state) {
     menu_key_timer = menu_key_timer_max;
   }

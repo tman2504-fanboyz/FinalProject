@@ -3,8 +3,9 @@ class Paddle {
   float paddleY;
   float paddleWidth;
   float paddleHeight;
-
+  
   Paddle() {
+    //create paddle
     paddleX = mod_width/2;
     paddleY = mod_height - 75;
     paddleWidth = 100;
@@ -25,6 +26,7 @@ class Ball {
   float diam; 
 
   Ball() {
+    //create ball
     ballX = 300;
     ballY = mod_height - 300; 
     velX = 0; //initial zero in x direction
@@ -36,6 +38,7 @@ class Ball {
     fill(255);
     ellipse(ballX, ballY, diam, diam);
   }
+
 
   void run() {
     ballY = ballY + velY;
@@ -94,6 +97,7 @@ class Brick {
     brickX = xinit;
     brickY = yinit;
 
+    //random color
     r = random(150, 300);
     g = random(150, 300);
     b = random(150, 300); 
@@ -128,6 +132,7 @@ class MBrickbreaker extends Module {
 
   Paddle paddle = new Paddle();
   Ball ball = new Ball();
+  //2D array for bricks
   Brick[][] brick = new Brick[rows][columns];
 
   MBrickbreaker() {
@@ -186,12 +191,6 @@ class MBrickbreaker extends Module {
       }
     }
 
-    //if all bricks have been hit, complete module
-    if (nobricks) {
-      mods_completed++;
-      completed = true;
-    }
-
     //collisions with the left top and right top of the paddle
     if (ball.collidedWith(paddle.paddleX, paddle.paddleY, paddle.paddleWidth, paddle.paddleHeight)) {
       ball.goUp();
@@ -222,6 +221,12 @@ class MBrickbreaker extends Module {
 
     ball.run();
 
+    //if all bricks have been hit, complete module
+    if (nobricks) {
+      mods_completed++;
+      completed = true;
+    }
+    
     //move the paddle left and right
     if (keyPressed) {
       if (keyCode == RIGHT) {

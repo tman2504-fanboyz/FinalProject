@@ -46,7 +46,8 @@ class Bomb {
     //scale the view out if no mod is active
     if (mod_is_active) {
       scale(1);
-    } else {
+    }
+    else {
       scale(0.25);
     }
 
@@ -150,14 +151,17 @@ class Bomb {
     else
       flash_time = 0;
   }
-
+  
+  //if game is not completed in time
   void explode() {
     game_state = 4;
   }
+  //if game is completed on time
   void win() {
     game_state = 5;
   }
 
+  //randomize modules based on difficulty
   void randomizeBomb(int difficulty) {
     int num_mod_types = 4;
 
@@ -225,6 +229,7 @@ class Bomb {
       if (keyCode == DOWN && mod_selected < mod_num-mod_per_row)
         mod_selected += mod_per_row;
     } else {
+      
       //run keypresses for the current module
       modules[mod_selected].keyPress();
     }

@@ -4,10 +4,12 @@ class MAdd extends Module {
   String usersum;
 
   MAdd() {
+    //choose two integers
     add1 = round(random(0, 50));
     add2 = round(random(0, 50));
     sum = trim(str(add1 + add2));
 
+    //string to store user submission
     usersum = "";
 
     completed = false;
@@ -24,9 +26,12 @@ class MAdd extends Module {
     fill(0, 240, 0);
     textAlign(CENTER, CENTER);
 
+    //test if usersum is empty
     if (usersum.equals(""))
+    //add "__" if no response has been entered
       text("" + add1 + " + " + add2 + " = __", mod_width/2, 2*mod_height/4);
     else
+    //only display number if response has been entered
       text("" + add1 + " + " + add2 + " = " + usersum, mod_width/2, 2*mod_height/4);
   }
   
@@ -47,10 +52,12 @@ class MAdd extends Module {
 
     //check if added correctly
     if (!sum.equals(usersum) && usersum.length() >= 2) {
+      //not added correctly
       failures++;
       usersum = "";
     }
     if (sum.equals(usersum)) {
+      //added correctly
       mods_completed++;
       completed = true;
     }
