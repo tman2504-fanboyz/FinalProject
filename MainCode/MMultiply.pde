@@ -25,6 +25,11 @@ class MMultiply extends Module {
       text("" + multiply1 + " * " + multiply2 + " = " + userproduct, mod_width/2, 2*mod_height/4);
   }
 
+  void run() {
+    //draw the help popup
+    image(hmath, width/2, 7*height/8);
+  }
+
   //record number
   void keyPress() {
     //make sure number is only three digits

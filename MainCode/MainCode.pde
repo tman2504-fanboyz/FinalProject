@@ -37,11 +37,17 @@ PImage game;
 PImage lose;
 PImage win;
 
+//help popup images
+PImage hdifficulty;
+PImage hgame;
+PImage hmath;
+PImage hbrickbreaker;
+PImage hfrogger;
+PImage hpong;
+
 void setup() {
   fullScreen();
   frameRate(100);
-
-
 
   //set the font to be comic sans
   PFont font;
@@ -60,9 +66,16 @@ void setup() {
   lose = loadImage("rsc/slose.png");
   win = loadImage("rsc/swin.png");
 
+  hdifficulty = loadImage("rsc/hdifficulty.png");
+  hgame = loadImage("rsc/hgame.png");
+  hmath = loadImage("rsc/hmath.png");
+  hbrickbreaker = loadImage("rsc/hbrickbreaker.png");
+  hfrogger = loadImage("rsc/hfrogger.png");
+  hpong = loadImage("rsc/hpong.png");
+
   flicker_timer = 0;
 
-  menu_key_timer_max = 15;
+  menu_key_timer_max = 50;
   menu_key_timer = menu_key_timer_max;
 
   mods_completed = 0;
@@ -112,12 +125,14 @@ void draw() {
       text("<  INSANE  >", width/2, height/2);
       break;
     }
+    
+    image(hdifficulty, width/2, 6*height/8);
 
     if (flicker_timer > 33)
       text("Press ENTER", width/2, 7*height/8);
   } else if (game_state == 3) {
     //gameplay, draw the bomb
-    background(255);
+    background(28, 38, 55);
 
     imageMode(CENTER);
     image(game, width/2, height/2);
@@ -177,12 +192,6 @@ void draw() {
 }
 
 void keyPressed() {
-  if (game_state_prev != game_state) {
-    menu_key_timer = menu_key_timer_max;
-  }
-
-  game_state_prev = game_state;
-
   if (menu_key_timer <= 0) {
     if (game_state == 1) {
       //go to difficulty menu
@@ -205,4 +214,10 @@ void keyPressed() {
       setup();
     }
   }
+
+  if (game_state_prev != game_state) {
+    menu_key_timer = menu_key_timer_max;
+  }
+
+  game_state_prev = game_state;
 }
