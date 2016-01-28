@@ -28,12 +28,16 @@ class MMultiply extends Module {
   }
 
   void run() {
+    if (completed) return;
+
     //draw the help popup
     image(hmath, width/2, 7*height/8);
   }
 
   //record number
   void keyPress() {
+    if (completed) return;
+
     //make sure number is only three digits
     if (key >= '0' && key <= '9') {
       userproduct += key;

@@ -39,6 +39,8 @@ class MPong extends Module {
   }
 
   void run() {    
+    if (completed) return;
+
     ballY = ballY + ySpeed;
     ballX = ballX + xSpeed;
 

@@ -97,7 +97,7 @@ void draw() {
 
     //title screen
     background(28, 38, 55);
-    
+
     imageMode(CENTER);
     image(background, width/2, height/2);
 

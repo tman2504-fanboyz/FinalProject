@@ -101,8 +101,8 @@ class Brick {
   }
 
   void display() {
-    if(hit) return;
-    
+    if (hit) return;
+
     fill(0, 240, 0);
     rect(x, y, Width, Height);
   }
@@ -110,7 +110,7 @@ class Brick {
   //What happens to the brick once it gets hit
   void hit() {
     //brick recognizes that it has been hit
-    hit = true; 
+    hit = true;
   }
 }
 
@@ -157,6 +157,8 @@ class MBrickbreaker extends Module {
   }
 
   void run() {
+    if (completed) return;
+
     boolean nobricks = true;
 
     //collisions with the block
@@ -169,31 +171,31 @@ class MBrickbreaker extends Module {
 
           //bottom side
           if (ball.collidedWith(tbrick.x, tbrick.y + tbrick.Height - 2.5, tbrick.Width, 5)) {
-            brick[i][j].hit();
+            tbrick.hit();
             ball.goDown();
           }
 
           //top side
-          if (ball.collidedWith(tbrick.x, tbrick.y + 2.5, tbrick.Width, 5)) {
-            brick[i][j].hit();
+          if (ball.collidedWith(tbrick.x, tbrick.y - 2.5, tbrick.Width, 5)) {
+            tbrick.hit();
             ball.goUp();
           }
 
           //left side
-          if (ball.collidedWith(tbrick.x + 2.5, tbrick.y, 5, tbrick.Height)) {
-            brick[i][j].hit();
+          if (ball.collidedWith(tbrick.x - 2.5, tbrick.y, 5, tbrick.Height)) {
+            tbrick.hit();
             ball.goLeft();
           }
 
           //right side
           if (ball.collidedWith(tbrick.x + tbrick.Width - 2.5, tbrick.y, 5, tbrick.Height)) {
-            brick[i][j].hit();
+            tbrick.hit();
             ball.goRight();
           }
         }
 
         //if a brick was not hit, make sure the module is not completed
-        if (!brick[i][j].hit) {
+        if (!tbrick.hit) {
           nobricks = false;
         }
       }
@@ -202,7 +204,7 @@ class MBrickbreaker extends Module {
     //collisions with the left top and right top of the paddle
     if (ball.collidedWith(paddle.x, paddle.y, paddle.Width, paddle.Height)) {
       ball.goUp();
-      
+
       ball.velX = (ball.x - (paddle.x + paddle.Width/2))/10;
     }
 
