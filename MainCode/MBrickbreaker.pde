@@ -30,7 +30,7 @@ class Ball {
     x = mod_width/2;
     y = mod_height/2; 
     velX = 0; //initial zero in x direction
-    velY = 2; 
+    velY = 5; 
     diam = 20;
   }
 
@@ -46,22 +46,22 @@ class Ball {
 
   //Ball goes left
   void goLeft() {
-    velX = -3 - random(2); //decrement x
+    velX = -abs(velX); //decrement x
   }
 
   //Ball goes right
   void goRight() {
-    velX = 3 + random(2); //increment x
+    velX = abs(velX); //increment x
   }
 
   //Ball goes up
   void goUp() {
-    velY = -4;
+    velY = -abs(velY);
   }
 
   //Ball goes down
   void goDown() {
-    velY = 4;
+    velY = abs(velY);
   }
 
   //If ball goes below paddle, reset
@@ -69,7 +69,7 @@ class Ball {
     x = mod_width/2;
     y = mod_height - 300;
     velX = 0;
-    velY = 2;
+    velY = 5;
   }
 
   boolean collidedWith(float bx, float by, float bwidth, float bheight) {
@@ -202,11 +202,8 @@ class MBrickbreaker extends Module {
     //collisions with the left top and right top of the paddle
     if (ball.collidedWith(paddle.x, paddle.y, paddle.Width, paddle.Height)) {
       ball.goUp();
-
-      if (ball.x < paddle.x + (paddle.Width/2))
-        ball.goLeft();
-      else
-        ball.goRight();
+      
+      ball.velX = (ball.x - (paddle.x + paddle.Width/2))/10;
     }
 
     //wall collisions

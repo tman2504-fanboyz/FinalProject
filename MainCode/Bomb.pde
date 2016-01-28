@@ -40,7 +40,6 @@ class Bomb {
   }
 
   void display(boolean countdown) {
-
     resetMatrix();
 
     //scale the view out if no mod is active
@@ -58,7 +57,7 @@ class Bomb {
 
     //center the view on a specific module
     if (mod_is_active) {
-      float ix = int(mod_selected % mod_per_row) + 2.5;
+      float ix = int(mod_selected % mod_per_row) + 2;
       float iy = int(mod_selected / mod_per_row) + 1.25;
 
       translate(-mod_width*ix-mod_padding*(ix+1), -mod_height*iy-mod_padding*(iy));
@@ -102,7 +101,7 @@ class Bomb {
       if (modules[i].failures > 0) {
         mistakes_made += modules[i].failures;
 
-        defuse_time -= modules[i].failures*10;
+        defuse_time -= modules[i].failures*5;
         modules[i].failures = 0;
 
         flash_time = flash_time_max;
@@ -130,6 +129,13 @@ class Bomb {
     fill(255, 0, 0, (float(flash_time)/float(flash_time_max))*255);
     rect(0, 0, width, height);
 
+    fill(255, 255, 255, (float(flash_time)/float(flash_time_max))*255);
+
+    textSize(128);
+    textAlign(CENTER, CENTER);
+    text("-5 s", width/2, height/2);
+    textSize(32);
+
     //draw the selection help text
     if (!mod_is_active)
       image(hgame, width/2, 7*height/8);
@@ -155,11 +161,13 @@ class Bomb {
   //if game is not completed in time
   void explode() {
     game_state = 4;
+    menu_key_timer = menu_key_timer_max;
   }
   //if game is completed on time
   void win() {
     game_state = 5;
     title_y = height*4;
+    menu_key_timer = menu_key_timer_max;
   }
 
   //randomize modules based on difficulty
