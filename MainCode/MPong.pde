@@ -107,7 +107,7 @@ class MPong extends Module {
 
       failures++;
     }
-    
+      
     //draw the help popup
     image(hpong, width/2, 7*height/8);
   }
