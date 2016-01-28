@@ -73,7 +73,7 @@ void setup() {
   hfrogger = loadImage("rsc/hfrogger.png");
   hpong = loadImage("rsc/hpong.png");
 
-  //set timer and mistakes
+  //set timer, stats, and title_y
   flicker_timer = 0;
 
   menu_key_timer_max = 50;
@@ -99,8 +99,9 @@ void draw() {
     fill(255);
     textAlign(CENTER, CENTER);
 
-    if (flicker_timer > 33) 
+    if (flicker_timer > 33) {
       text("Press Any Key", width/2, 7*height/8);
+    }
   } else if (game_state == 2) {
 
     //difficulty select
@@ -133,8 +134,9 @@ void draw() {
 
     image(hdifficulty, width/2, 5*height/8);
 
-    if (flicker_timer > 33)
+    if (flicker_timer > 33) {
       text("Press ENTER", width/2, 7*height/8);
+    }
   } else if (game_state == 3) {
 
     //gameplay, draw the bomb
@@ -162,8 +164,9 @@ void draw() {
 
     textAlign(CENTER, CENTER);
 
-    if (flicker_timer > 33)
+    if (flicker_timer > 33) {
       text("Press Any Key", width/2, 7*height/8);
+    }
   } else if (game_state == 5) {
 
     //game won, draw the game over text
@@ -188,8 +191,9 @@ void draw() {
 
     textAlign(CENTER, CENTER);
 
-    if (flicker_timer > 33) 
+    if (flicker_timer > 33) {
       text("Press Any Key", width/2, 7*height/8);
+    }
   }
 
   //increment the timer for flickering the text, reset if it's too big

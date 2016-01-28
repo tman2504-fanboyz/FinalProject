@@ -135,7 +135,7 @@ class Bomb {
       image(hgame, width/2, 7*height/8);
 
     //if all mods are completed, call win
-    if (!mod_incomplete)
+    if (!mod_incomplete && countdown)
       win();
 
     //lower the time, and if it's zero, explode
@@ -159,6 +159,7 @@ class Bomb {
   //if game is completed on time
   void win() {
     game_state = 5;
+    title_y = height*4;
   }
 
   //randomize modules based on difficulty
