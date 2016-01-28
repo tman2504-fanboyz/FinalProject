@@ -39,15 +39,14 @@ class Bomb {
     mod_is_active = false;
   }
 
-  void display() {
+  void display(boolean countdown) {
 
     resetMatrix();
 
     //scale the view out if no mod is active
     if (mod_is_active) {
       scale(1);
-    }
-    else {
+    } else {
       scale(0.25);
     }
 
@@ -113,12 +112,12 @@ class Bomb {
     }
 
     resetMatrix();
-    
+
     imageMode(CENTER);
-    
+
     //run the active module
     if (!modules[mod_selected].completed && mod_is_active)
-        modules[mod_selected].run();
+      modules[mod_selected].run();
 
     //draw the defuse time text
     textSize(32);
@@ -140,7 +139,8 @@ class Bomb {
       win();
 
     //lower the time, and if it's zero, explode
-    defuse_time -= 0.01;
+    if (countdown)
+      defuse_time -= 0.01;
 
     if (defuse_time <= 0)
       explode();
@@ -151,7 +151,7 @@ class Bomb {
     else
       flash_time = 0;
   }
-  
+
   //if game is not completed in time
   void explode() {
     game_state = 4;
@@ -229,7 +229,7 @@ class Bomb {
       if (keyCode == DOWN && mod_selected < mod_num-mod_per_row)
         mod_selected += mod_per_row;
     } else {
-      
+
       //run keypresses for the current module
       modules[mod_selected].keyPress();
     }

@@ -107,7 +107,7 @@ class MPong extends Module {
 
       failures++;
     }
-    
+
     //draw the help popup
     image(hpong, width/2, 7*height/8);
   }
@@ -116,7 +116,7 @@ class MPong extends Module {
     //move left paddle up
     if (keyCode == UP && paddleY > 0) {
       paddleSpeed = -10;
-    //move left paddle down
+      //move left paddle down
     } else if (keyCode == DOWN && paddleY + paddleHeight < mod_height) {
       paddleSpeed =  10;
     } else {

@@ -28,14 +28,14 @@ class MAdd extends Module {
 
     //test if usersum is empty
     if (usersum.equals(""))
-    //add "__" if no response has been entered
+      //add "__" if no response has been entered
       text("" + add1 + " + " + add2 + " = __", mod_width/2, 2*mod_height/4);
     else
-    //only display number if response has been entered
+      //only display number if response has been entered
       text("" + add1 + " + " + add2 + " = " + usersum, mod_width/2, 2*mod_height/4);
   }
-  
-  void run(){
+
+  void run() {
     //draw the help popup
     image(hmath, width/2, 7*height/8);
   }

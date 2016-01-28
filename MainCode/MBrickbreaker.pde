@@ -3,7 +3,7 @@ class Paddle {
   float paddleY;
   float paddleWidth;
   float paddleHeight;
-  
+
   Paddle() {
     //create paddle
     paddleX = mod_width/2;
@@ -226,7 +226,7 @@ class MBrickbreaker extends Module {
       mods_completed++;
       completed = true;
     }
-    
+
     //move the paddle left and right
     if (keyPressed) {
       if (keyCode == RIGHT) {
@@ -241,7 +241,7 @@ class MBrickbreaker extends Module {
         }
       }
     }
-    
+
     //draw the help popup
     image(hbrickbreaker, width/2, 7*height/8);
   }

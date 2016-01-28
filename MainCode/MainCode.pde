@@ -31,9 +31,9 @@ int mods_completed;
 int mistakes_made;
 
 //backgrounds for each game state
+PImage background;
 PImage title;
 PImage diff;
-PImage game;
 PImage lose;
 PImage win;
 
@@ -61,8 +61,8 @@ void setup() {
 
   //load all images
   title = loadImage("rsc/stitle.png");
-  diff = loadImage("rsc/sdiff.png");
-  game = loadImage("rsc/sgame.png");
+  diff = loadImage("rsc/sdifficulty.png");
+  background = loadImage("rsc/sgame.png");
   lose = loadImage("rsc/slose.png");
   win = loadImage("rsc/swin.png");
 
@@ -72,7 +72,7 @@ void setup() {
   hbrickbreaker = loadImage("rsc/hbrickbreaker.png");
   hfrogger = loadImage("rsc/hfrogger.png");
   hpong = loadImage("rsc/hpong.png");
-  
+
   //set timer and mistakes
   flicker_timer = 0;
 
@@ -82,33 +82,37 @@ void setup() {
   mods_completed = 0;
   mistakes_made = 0;
 
-  title_y = width*4;
+  title_y = height*4;
 }
 
 void draw() {
   if (game_state == 1) {
-    if (title_y != 0)
-      title_y *= 0.9;
 
     //title screen
-    background(255);
+    background(28, 38, 55);
 
     imageMode(CENTER);
+    image(background, width/2, height/2);
+
     image(title, width/2, height/2 - title_y);
 
-    fill(0);
+    fill(255);
     textAlign(CENTER, CENTER);
 
     if (flicker_timer > 33) 
       text("Press Any Key", width/2, 7*height/8);
-    } else if (game_state == 2) {
+  } else if (game_state == 2) {
+
     //difficulty select
-    background(255);
+    //gameplay, draw the bomb
+    background(28, 38, 55);
 
     imageMode(CENTER);
-    image(diff, width/2, height/2);
+    image(background, width/2, height/2);
 
-    fill(0);
+    image(diff, width/2, height/8 - title_y/2);
+
+    fill(255);
     textAlign(CENTER, CENTER);
 
     //display difficulty
@@ -126,25 +130,23 @@ void draw() {
       text("<  INSANE  >", width/2, height/2);
       break;
     }
-    
-    image(hdifficulty, width/2, 6*height/8);
+
+    image(hdifficulty, width/2, 5*height/8);
 
     if (flicker_timer > 33)
       text("Press ENTER", width/2, 7*height/8);
-
-    //gameplay, draw the bomb
   } else if (game_state == 3) {
 
+    //gameplay, draw the bomb
     background(28, 38, 55);
 
     imageMode(CENTER);
-    image(game, width/2, height/2);
+    image(background, width/2, height/2);
 
-    bomb.display();
-  
-  //game over, draw the game over text
+    bomb.display(true);
   } else if (game_state == 4) {
-  
+
+    //game over, draw the game over text
     background(0);
 
     imageMode(CENTER);
@@ -162,13 +164,17 @@ void draw() {
 
     if (flicker_timer > 33)
       text("Press Any Key", width/2, 7*height/8);
-  
-  //game won, draw the game over text
   } else if (game_state == 5) {
-    background(34, 177, 76);
+
+    //game won, draw the game over text
+    background(28, 38, 55);
 
     imageMode(CENTER);
-    image(win, width/2, height/2);
+    image(background, width/2, height/2);
+
+    bomb.display(false);
+
+    image(win, width/2, height/2 - title_y);
 
     fill(255);
 
@@ -195,35 +201,37 @@ void draw() {
   //decrement menu key timer
   if (menu_key_timer > 0)
     menu_key_timer--;
+
+  //make any titles move toward the center
+  if (title_y != 0)
+    title_y *= 0.9;
 }
 
 void keyPressed() {
   if (menu_key_timer <= 0) {
-    
+
     //go to difficulty menu
     if (game_state == 1) {
       game_state = 2;
     }
-    
+
     //player choose difficulty    
     else if (game_state == 2) {
       if (keyCode == ENTER) {
         bomb = new Bomb(difficulty);
         game_state = 3;
-      }
-      else if (keyCode == LEFT && difficulty > 1) {
+      } else if (keyCode == LEFT && difficulty > 1) {
         difficulty--;
-      }
-      else if (keyCode == RIGHT && difficulty < 4) {
+      } else if (keyCode == RIGHT && difficulty < 4) {
         difficulty++;
       }
     }
-    
+
     //do key presses for the bomb    
     else if (game_state == 3) {
       bomb.keyPress();
     }
-    
+
     //reset game
     else if (game_state == 4 || game_state == 5) {
       setup();
@@ -233,6 +241,7 @@ void keyPressed() {
   //reset timer for game
   if (game_state_prev != game_state) {
     menu_key_timer = menu_key_timer_max;
+    title_y = height*4;
   }
 
   game_state_prev = game_state;
