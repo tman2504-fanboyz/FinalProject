@@ -19,10 +19,17 @@ class MMultiply extends Module {
     fill(0, 240, 0);
     textAlign(CENTER, CENTER);
 
+    //place "___" if user has not entered anything
     if (userproduct.equals(""))
       text("" + multiply1 + " * " + multiply2 + " = ___", mod_width/2, 2*mod_height/4);
+    //remove "___" if user has entered something
     else
       text("" + multiply1 + " * " + multiply2 + " = " + userproduct, mod_width/2, 2*mod_height/4);
+  }
+
+  void run() {
+    //draw the help popup
+    image(hmath, width/2, 7*height/8);
   }
 
   //record number

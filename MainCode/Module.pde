@@ -11,6 +11,7 @@ class Module {
     failures = 0;
   }
 
+  //completed module screen
   void dispComplete() {
     fill(0, 255, 0);
     rect(0, 0, mod_width, mod_height);

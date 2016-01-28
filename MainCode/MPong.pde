@@ -10,8 +10,8 @@ class MPong extends Module {
   float wally2 = wally1 + gap;
   float ballX = mod_width/2;
   float ballY = mod_height/2;
-  float xSpeed = 5;
-  float ySpeed = 5;
+  float xSpeed = -2;
+  float ySpeed = 0;
   float radius = 10;
 
   MPong() {
@@ -52,8 +52,8 @@ class MPong extends Module {
     //paddle collide right side
     if (ballX - radius <= paddleWidth) {
       if (ballY + radius >= paddleY && ballY - radius <= paddleY + paddleHeight) {
-        xSpeed = abs(xSpeed);
-        ySpeed += random(-2, 2) + paddleSpeed/10;
+        xSpeed = 5;
+        ySpeed += random(-10, 10);
         ySpeed = ySpeed % 5;
       }
     }
@@ -64,29 +64,29 @@ class MPong extends Module {
     }
 
     //right limit for upper rectangle
-    if (ballX + radius >= mod_width - wall_width && ballX <= mod_width - wall_width + radius/60) {
-      if (ballY + radius <= wally1) {
+    if (ballX + radius*1.5 >= mod_width - wall_width && ballX <= mod_width - wall_width + radius/60) {
+      if (ballY + radius*1.5 <= wally1) {
         xSpeed = -abs(xSpeed);
       }
     }
 
     //right limit for lower rectangle
-    if (ballX + radius >= mod_width - wall_width && ballX <= mod_width - wall_width + radius/60) {
-      if (ballY + radius >= wally2) {
+    if (ballX + radius*1.5 >= mod_width - wall_width && ballX <= mod_width - wall_width + radius/60) {
+      if (ballY + radius*1.5 >= wally2) {
         xSpeed = -abs(xSpeed);
       }
     } 
 
     //bottom limit for upper rectangle
-    if (ballY - radius <= wally1 && ballY >= wally1 - radius/60) {
-      if (ballX + radius >= mod_width - wall_width) {
+    if (ballY - radius*1.5 <= wally1 && ballY >= wally1 - radius/60) {
+      if (ballX + radius*1.5 >= mod_width - wall_width) {
         ySpeed = abs(ySpeed);
       }
     }
 
     //top limit for lower rectangle
-    if (ballY + radius >= wally2 && ballY <= wally2 + radius/60) {
-      if (ballX + radius >= mod_width - wall_width) {
+    if (ballY + radius*1.5 >= wally2 && ballY <= wally2 + radius/60) {
+      if (ballX + radius*1.5 >= mod_width - wall_width) {
         ySpeed = -abs(ySpeed);
       }
     }    
@@ -97,7 +97,7 @@ class MPong extends Module {
       completed = true;
     }
 
-    //left limit
+    //left limit, signifying failure
     if (ballX - radius <=0) {
       ballX = mod_width/2;
       ballY = mod_height/2;
@@ -107,12 +107,17 @@ class MPong extends Module {
 
       failures++;
     }
+
+    //draw the help popup
+    image(hpong, width/2, 7*height/8);
   }
 
   void keyPress() {
-    if (keyCode == UP && paddleY > 0) {//move left paddle up
+    //move left paddle up
+    if (keyCode == UP && paddleY > 0) {
       paddleSpeed = -10;
-    } else if (keyCode == DOWN && paddleY + paddleHeight < mod_height) { //move left paddle down
+      //move left paddle down
+    } else if (keyCode == DOWN && paddleY + paddleHeight < mod_height) {
       paddleSpeed =  10;
     } else {
       paddleSpeed = 0;

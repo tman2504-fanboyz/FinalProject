@@ -1,13 +1,14 @@
 class MFrogger extends Module {
   //creates frog, car, pos variables
-  PImage frog;
+ 
+  
   int frog_x, frog_y;
 
-  PImage car;
+  
   PVector[] cars;
 
   int frog_size = 60;
-  float car_speed = 0.05;
+  float car_speed = 0.04;
 
   int press_delay;
 
@@ -17,13 +18,10 @@ class MFrogger extends Module {
     frog_x = mod_width/frog_size/2;
     frog_y = mod_height/frog_size - 1;
 
-    //loads images used in game
-    frog = loadImage("rsc/frog.png");
-    car = loadImage("rsc/car.png");
-
     //creates array of cars
     cars = new PVector[8];
 
+    //place cars into rows
     for (int i = 0; i < 8; i++) {
       cars[i] = new PVector(round(random(0, mod_width/frog_size - 2)), i + 1);
     }
@@ -83,6 +81,9 @@ class MFrogger extends Module {
       press_delay--;
     else if (press_delay < 0)
       press_delay = 0;
+
+    //draw the help popup
+    image(hfrogger, width/2, 7*height/8);
   }
 
   void keyPress() {

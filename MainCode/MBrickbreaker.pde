@@ -1,45 +1,47 @@
 class Paddle {
-  float paddleX;
-  float paddleY;
-  float paddleWidth;
-  float paddleHeight;
+  float x;
+  float y;
+  float Width;
+  float Height;
 
   Paddle() {
-    paddleX = mod_width/2;
-    paddleY = mod_height - 75;
-    paddleWidth = 100;
-    paddleHeight = 25;
+    //create paddle
+    x = mod_width/2;
+    y = mod_height - 75;
+    Width = 100;
+    Height = 25;
   }
 
   void display() {
-    fill(255);
-    rect(paddleX, paddleY, paddleWidth, paddleHeight);
+    fill(0, 240, 0);
+    rect(x, y, Width, Height);
   }
 }
 
 class Ball {
-  float ballX;
-  float ballY;
+  float x;
+  float y;
   float velX;
   float velY;
   float diam; 
 
   Ball() {
-    ballX = 300;
-    ballY = mod_height - 300; 
+    //create ball
+    x = mod_width/2;
+    y = mod_height/2; 
     velX = 0; //initial zero in x direction
-    velY = 4; 
+    velY = 2; 
     diam = 20;
   }
 
   void display() {
-    fill(255);
-    ellipse(ballX, ballY, diam, diam);
+    fill(0, 240, 0);
+    ellipse(x, y, diam, diam);
   }
 
   void run() {
-    ballY = ballY + velY;
-    ballX = ballX + velX;
+    y = y + velY;
+    x = x + velX;
   }
 
   //Ball goes left
@@ -64,59 +66,51 @@ class Ball {
 
   //If ball goes below paddle, reset
   void reset() {
-    ballX = mod_width/2;
-    ballY = mod_height - 300;
+    x = mod_width/2;
+    y = mod_height - 300;
     velX = 0;
     velY = 2;
   }
 
-  boolean collidedWith(float x, float y, float bwidth, float bheight) {
-    return (ballX - diam/2 <= x + bwidth && 
-      ballX + diam/2 >= x &&
-      ballY - diam/2 <= y + bheight &&
-      ballY + diam/2 >= y);
+  boolean collidedWith(float bx, float by, float bwidth, float bheight) {
+    return (x - diam/2 <= bx + bwidth && 
+      x + diam/2 >= bx &&
+      y - diam/2 <= by + bheight &&
+      y + diam/2 >= by);
   }
 }
 
 class Brick {
-  float brickX;
-  float brickY;
-  float brickWidth;
-  float brickHeight;
-  float r;
-  float g;
-  float b; 
+  float x;
+  float y;
+  float Width;
+  float Height;
 
   //hit by ball yes or no 
   boolean hit; 
 
   Brick(float xinit, float yinit) {
-    brickX = xinit;
-    brickY = yinit;
+    x = xinit;
+    y = yinit;
 
-    r = random(150, 300);
-    g = random(150, 300);
-    b = random(150, 300); 
-
-    brickWidth = mod_width/8;
-    brickHeight = 40; 
+    Width = mod_width/8;
+    Height = 40; 
 
     //bricks aren't hit initially
     hit = false;
   }
 
   void display() {
-    fill(r, g, b);
-    rect(brickX, brickY, brickWidth, brickHeight);
+    if(hit) return;
+    
+    fill(0, 240, 0);
+    rect(x, y, Width, Height);
   }
 
   //What happens to the brick once it gets hit
   void hit() {
     //brick recognizes that it has been hit
     hit = true; 
-    r = 0;
-    g = 0;
-    b = 0;
   }
 }
 
@@ -128,6 +122,7 @@ class MBrickbreaker extends Module {
 
   Paddle paddle = new Paddle();
   Ball ball = new Ball();
+  //2D array for bricks
   Brick[][] brick = new Brick[rows][columns];
 
   MBrickbreaker() {
@@ -167,24 +162,72 @@ class MBrickbreaker extends Module {
     //collisions with the block
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
-        if (ball.collidedWith(brick[i][j].brickX, brick[i][j].brickY, brick[i][j].brickWidth, brick[i][j].brickHeight) && !brick[i][j].hit) {
-          brick[i][j].hit();
 
-          float brickdx = abs(ball.ballX - brick[i][j].brickX)/brick[i][j].brickWidth;
-          float brickdy = abs(ball.ballY - brick[i][j].brickY)/brick[i][j].brickHeight;
+        Brick tbrick = brick[i][j];
 
-          if (brickdx < brickdy) {
-            ball.velX *= -1;
-          } else {
-            ball.velY *= -1;
+        if (!brick[i][j].hit) {
+
+          //bottom side
+          if (ball.collidedWith(tbrick.x, tbrick.y + tbrick.Height - 2.5, tbrick.Width, 5)) {
+            brick[i][j].hit();
+            ball.goDown();
+          }
+
+          //top side
+          if (ball.collidedWith(tbrick.x, tbrick.y + 2.5, tbrick.Width, 5)) {
+            brick[i][j].hit();
+            ball.goUp();
+          }
+
+          //left side
+          if (ball.collidedWith(tbrick.x + 2.5, tbrick.y, 5, tbrick.Height)) {
+            brick[i][j].hit();
+            ball.goLeft();
+          }
+
+          //right side
+          if (ball.collidedWith(tbrick.x + tbrick.Width - 2.5, tbrick.y, 5, tbrick.Height)) {
+            brick[i][j].hit();
+            ball.goRight();
           }
         }
 
+        //if a brick was not hit, make sure the module is not completed
         if (!brick[i][j].hit) {
           nobricks = false;
         }
       }
     }
+
+    //collisions with the left top and right top of the paddle
+    if (ball.collidedWith(paddle.x, paddle.y, paddle.Width, paddle.Height)) {
+      ball.goUp();
+
+      if (ball.x < paddle.x + (paddle.Width/2))
+        ball.goLeft();
+      else
+        ball.goRight();
+    }
+
+    //wall collisions
+    if (ball.x + ball.diam / 2 >= mod_width) {
+      ball.goLeft();
+    }
+
+    if (ball.x - ball.diam / 2 <= 0) {
+      ball.goRight();
+    }
+
+    if (ball.y - ball.diam / 2 <= 0) {
+      ball.goDown();
+    }
+
+    if (ball.y  + ball.diam/2 >= mod_height) {
+      ball.reset();
+      failures++;
+    }
+
+    ball.run();
 
     //if all bricks have been hit, complete module
     if (nobricks) {
@@ -192,49 +235,22 @@ class MBrickbreaker extends Module {
       completed = true;
     }
 
-    //collisions with the left top and right top of the paddle
-    if (ball.collidedWith(paddle.paddleX, paddle.paddleY, paddle.paddleWidth, paddle.paddleHeight)) {
-      ball.goUp();
-
-      if (ball.ballX < paddle.paddleX + (paddle.paddleWidth/2))
-        ball.goLeft();
-      else
-        ball.goRight();
-    }
-
-    //wall collisions
-    if (ball.ballX + ball.diam / 2 >= mod_width) {
-      ball.goLeft();
-    }
-
-    if (ball.ballX - ball.diam / 2 <= 0) {
-      ball.goRight();
-    }
-
-    if (ball.ballY - ball.diam / 2 <= 0) {
-      ball.goDown();
-    }
-
-    if (ball.ballY  + ball.diam/2 >= mod_height) {
-      ball.reset();
-      failures++;
-    }
-
-    ball.run();
-
     //move the paddle left and right
     if (keyPressed) {
       if (keyCode == RIGHT) {
-        if (paddle.paddleX + paddle.paddleWidth < mod_width) {
-          paddle.paddleX += 10;
+        if (paddle.x + paddle.Width < mod_width) {
+          paddle.x += 10;
         }
       }
 
       if (keyCode == LEFT) {
-        if (paddle.paddleX > 0) {
-          paddle.paddleX -= 10;
+        if (paddle.x > 0) {
+          paddle.x -= 10;
         }
       }
     }
+
+    //draw the help popup
+    image(hbrickbreaker, width/2, 7*height/8);
   }
 }

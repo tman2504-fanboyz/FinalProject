@@ -31,17 +31,27 @@ int mods_completed;
 int mistakes_made;
 
 //backgrounds for each game state
+PImage background;
 PImage title;
 PImage diff;
-PImage game;
 PImage lose;
 PImage win;
+
+//help popup images
+PImage hdifficulty;
+PImage hgame;
+PImage hmath;
+PImage hbrickbreaker;
+PImage hfrogger;
+PImage hpong;
+
+//frog and car sprites
+PImage frog;
+PImage car;
 
 void setup() {
   fullScreen();
   frameRate(100);
-
-
 
   //set the font to be comic sans
   PFont font;
@@ -55,46 +65,62 @@ void setup() {
 
   //load all images
   title = loadImage("rsc/stitle.png");
-  diff = loadImage("rsc/sdiff.png");
-  game = loadImage("rsc/sgame.png");
+  diff = loadImage("rsc/sdifficulty.png");
+  background = loadImage("rsc/sgame.png");
   lose = loadImage("rsc/slose.png");
   win = loadImage("rsc/swin.png");
 
+  hdifficulty = loadImage("rsc/hdifficulty.png");
+  hgame = loadImage("rsc/hgame.png");
+  hmath = loadImage("rsc/hmath.png");
+  hbrickbreaker = loadImage("rsc/hbrickbreaker.png");
+  hfrogger = loadImage("rsc/hfrogger.png");
+  hpong = loadImage("rsc/hpong.png");
+
+  frog = loadImage("rsc/frog.png");
+  car = loadImage("rsc/car.png");
+
+  //set timer, stats, and title_y
   flicker_timer = 0;
 
-  menu_key_timer_max = 15;
+  menu_key_timer_max = 50;
   menu_key_timer = menu_key_timer_max;
 
   mods_completed = 0;
   mistakes_made = 0;
 
-  title_y = width*4;
+  title_y = height*4;
 }
 
 void draw() {
   if (game_state == 1) {
-    if (title_y != 0)
-      title_y *= 0.9;
 
     //title screen
-    background(255);
+    background(28, 38, 55);
 
     imageMode(CENTER);
+    image(background, width/2, height/2);
+
     image(title, width/2, height/2 - title_y);
 
-    fill(0);
+    fill(255);
     textAlign(CENTER, CENTER);
 
-    if (flicker_timer > 33) 
+    if (flicker_timer > 33) {
       text("Press Any Key", width/2, 7*height/8);
+    }
   } else if (game_state == 2) {
+
     //difficulty select
-    background(255);
+    //gameplay, draw the bomb
+    background(28, 38, 55);
 
     imageMode(CENTER);
-    image(diff, width/2, height/2);
+    image(background, width/2, height/2);
 
-    fill(0);
+    image(diff, width/2, height/8 - title_y/2);
+
+    fill(255);
     textAlign(CENTER, CENTER);
 
     //display difficulty
@@ -113,17 +139,22 @@ void draw() {
       break;
     }
 
-    if (flicker_timer > 33)
+    image(hdifficulty, width/2, 5*height/8);
+
+    if (flicker_timer > 33) {
       text("Press ENTER", width/2, 7*height/8);
+    }
   } else if (game_state == 3) {
+
     //gameplay, draw the bomb
-    background(255);
+    background(28, 38, 55);
 
     imageMode(CENTER);
-    image(game, width/2, height/2);
+    image(background, width/2, height/2);
 
-    bomb.display();
+    bomb.display(true);
   } else if (game_state == 4) {
+
     //game over, draw the game over text
     background(0);
 
@@ -140,14 +171,20 @@ void draw() {
 
     textAlign(CENTER, CENTER);
 
-    if (flicker_timer > 33)
+    if (flicker_timer > 33) {
       text("Press Any Key", width/2, 7*height/8);
+    }
   } else if (game_state == 5) {
+
     //game won, draw the game over text
-    background(34, 177, 76);
+    background(28, 38, 55);
 
     imageMode(CENTER);
-    image(win, width/2, height/2);
+    image(background, width/2, height/2);
+
+    bomb.display(false);
+
+    image(win, width/2, height/2 - title_y);
 
     fill(255);
 
@@ -161,8 +198,9 @@ void draw() {
 
     textAlign(CENTER, CENTER);
 
-    if (flicker_timer > 33) 
+    if (flicker_timer > 33) {
       text("Press Any Key", width/2, 7*height/8);
+    }
   }
 
   //increment the timer for flickering the text, reset if it's too big
@@ -174,21 +212,22 @@ void draw() {
   //decrement menu key timer
   if (menu_key_timer > 0)
     menu_key_timer--;
+
+  //make any titles move toward the center
+  if (title_y != 0)
+    title_y *= 0.9;
 }
 
 void keyPressed() {
-  if (game_state_prev != game_state) {
-    menu_key_timer = menu_key_timer_max;
-  }
-
-  game_state_prev = game_state;
-
   if (menu_key_timer <= 0) {
+
+    //go to difficulty menu
     if (game_state == 1) {
-      //go to difficulty menu
       game_state = 2;
-    } else if (game_state == 2) {
-      //navigate the difficulty menu
+    }
+
+    //player choose difficulty    
+    else if (game_state == 2) {
       if (keyCode == ENTER) {
         bomb = new Bomb(difficulty);
         game_state = 3;
@@ -197,12 +236,24 @@ void keyPressed() {
       } else if (keyCode == RIGHT && difficulty < 4) {
         difficulty++;
       }
-    } else if (game_state == 3) {
-      //do key presses for the bomb
+    }
+
+    //do key presses for the bomb    
+    else if (game_state == 3) {
       bomb.keyPress();
-    } else if (game_state == 4 || game_state == 5) {
-      //reset the game
+    }
+
+    //reset game
+    else if (game_state == 4 || game_state == 5) {
       setup();
     }
   }
+
+  //reset timer for game
+  if (game_state_prev != game_state) {
+    menu_key_timer = menu_key_timer_max;
+    title_y = height*4;
+  }
+
+  game_state_prev = game_state;
 }
