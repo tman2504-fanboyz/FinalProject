@@ -1,9 +1,10 @@
 class MFrogger extends Module {
   //creates frog, car, pos variables
-  PImage frog;
+ 
+  
   int frog_x, frog_y;
 
-  PImage car;
+  
   PVector[] cars;
 
   int frog_size = 60;
@@ -16,10 +17,6 @@ class MFrogger extends Module {
     //created position for frog
     frog_x = mod_width/frog_size/2;
     frog_y = mod_height/frog_size - 1;
-
-    //loads images used in game
-    frog = loadImage("rsc/frog.png");
-    car = loadImage("rsc/car.png");
 
     //creates array of cars
     cars = new PVector[8];

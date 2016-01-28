@@ -45,6 +45,10 @@ PImage hbrickbreaker;
 PImage hfrogger;
 PImage hpong;
 
+//frog and car sprites
+PImage frog;
+PImage car;
+
 void setup() {
   fullScreen();
   frameRate(100);
@@ -72,6 +76,9 @@ void setup() {
   hbrickbreaker = loadImage("rsc/hbrickbreaker.png");
   hfrogger = loadImage("rsc/hfrogger.png");
   hpong = loadImage("rsc/hpong.png");
+
+  frog = loadImage("rsc/frog.png");
+  car = loadImage("rsc/car.png");
 
   //set timer, stats, and title_y
   flicker_timer = 0;
