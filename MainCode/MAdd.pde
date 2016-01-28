@@ -1,4 +1,4 @@
-class MAdd extends Module {
+class MAdd extends Module { //<>//
   int add1, add2;
   String sum;
   String usersum;
@@ -36,12 +36,16 @@ class MAdd extends Module {
   }
 
   void run() {
+    if (completed) return;
+
     //draw the help popup
     image(hmath, width/2, 7*height/8);
   }
 
   //record number
   void keyPress() {
+    if (completed) return;
+
     //make sure number is only two digits
     if (key >= '0' && key <= '9') {
       usersum += key;

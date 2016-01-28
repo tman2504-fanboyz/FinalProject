@@ -1,10 +1,10 @@
 class MFrogger extends Module {
   //creates frog, car, pos variables
- 
-  
+
+
   int frog_x, frog_y;
 
-  
+
   PVector[] cars;
 
   int frog_size = 60;
@@ -52,6 +52,8 @@ class MFrogger extends Module {
   }
 
   void run() {
+    if (completed) return;
+
     //gives cars velocity, and resets cars after leaving screen
     for (int i = 0; i < 8; i++) {
       cars[i].x += car_speed;

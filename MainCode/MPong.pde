@@ -39,6 +39,8 @@ class MPong extends Module {
   }
 
   void run() {    
+    if (completed) return;
+
     ballY = ballY + ySpeed;
     ballX = ballX + xSpeed;
 
@@ -53,8 +55,7 @@ class MPong extends Module {
     if (ballX - radius <= paddleWidth) {
       if (ballY + radius >= paddleY && ballY - radius <= paddleY + paddleHeight) {
         xSpeed = 5;
-        ySpeed += random(-10, 10);
-        ySpeed = ySpeed % 5;
+        ySpeed = (ballY - (paddleY + paddleHeight/2))/10;
       }
     }
 
@@ -102,8 +103,8 @@ class MPong extends Module {
       ballX = mod_width/2;
       ballY = mod_height/2;
 
-      xSpeed = 5;
-      ySpeed = 5;
+      xSpeed = -2;
+      ySpeed = 0;
 
       failures++;
     }
